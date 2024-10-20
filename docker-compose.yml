@@ -5,10 +5,29 @@ services:
       dockerfile: Dockerfile
       args:
         - PORT=80
+    environment:
+      BACKEND_URL: "http://backend:8000"
+      PORT: 80
     networks:
       - app-network
     ports:
       - "80:80"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: "postgresql://user:password@database:5432/movieh"
+      ENV: dev
+    networks:
+      - app-network
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database
 
   database:
     image: postgres:17-alpine
