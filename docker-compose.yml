@@ -10,5 +10,21 @@ services:
     ports:
       - "80:80"
 
+  database:
+    image: postgres:17-alpine
+    networks:
+      - app-network
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: movieh
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
 networks:
   app-network:
+
+volumes:
+  db-data:
