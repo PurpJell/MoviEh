@@ -1,7 +1,7 @@
 server {
     listen ${PORT}; # This will be replaced by the entrypoint script
     
-    location /api/ {
+    location /rest-api/ {
         proxy_pass ${BACKEND_URL}; # This will be replaced by the entrypoint script
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
