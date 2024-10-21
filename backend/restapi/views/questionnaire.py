@@ -1,11 +1,11 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import AllowAny
 
 
 class QuestionnaireAPIView(APIView):
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [AllowAny]
 
     def get(self, request):
         return Response({
@@ -45,3 +45,24 @@ class QuestionnaireAPIView(APIView):
                 },
             ],
         }, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        # Extract results from the request data
+        version = request.data.get('version', None)
+        results = request.data.get('results', [])
+
+        # Validate the results (optional)
+        if not isinstance(results, list):
+            if not all(isinstance(result, int) for result in results):
+                return Response(
+                    {"error": "Invalid results format"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+        # Format the response
+        response_data = {
+            "version": version,
+            "results": results
+        }
+
+        return Response(response_data, status=status.HTTP_200_OK)
