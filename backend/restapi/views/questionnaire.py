@@ -107,5 +107,6 @@ class QuestionnaireAPIView(APIView):
             "version": version,
             "results": results,
             "recommendations": film_recommendations
+        }
 
         return Response(response_data, status=status.HTTP_200_OK)
