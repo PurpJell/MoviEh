@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'moviehApp',
     'rest_framework',
+    "restapi",
 ]
 
 MIDDLEWARE = [
