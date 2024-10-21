@@ -1,11 +1,11 @@
 from django.urls import path
-from restapi import views as api_views
+from restapi.views import questionnaire
 
 
 urlpatterns = [
     path(
         'questionnaire/',
-        api_views.QuestionnaireAPIView.as_view(),
+        questionnaire.QuestionnaireAPIView.as_view(),
         name='questionnaire'
     ),
  ]
