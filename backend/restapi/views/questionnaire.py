@@ -45,20 +45,24 @@ class QuestionnaireAPIView(APIView):
                 },
             ],
         }, status=status.HTTP_200_OK)
-    
+
     def post(self, request):
         # Extract results from the request data
         version = request.data.get('version', None)
         results = request.data.get('results', [])
-        
+
         # Validate the results (optional)
-        if not isinstance(results, list) or not all(isinstance(result, int) for result in results):
-            return Response({"error": "Invalid results format"}, status=status.HTTP_400_BAD_REQUEST)
-        
+        if not isinstance(results, list):
+            if not all(isinstance(result, int) for result in results):
+                return Response(
+                    {"error": "Invalid results format"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
         # Format the response
         response_data = {
             "version": version,
             "results": results
         }
-        
+
         return Response(response_data, status=status.HTTP_200_OK)
