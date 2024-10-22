@@ -1,72 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, Radio, Typography, Flex } from 'antd';
 import { RadioChangeEvent } from 'antd/es/radio';
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
-import api from '../../../api/api';
-import Loading from '../Loading';
+import { IQuestionnaire, IOption } from '../../../types/questionnaireTypes';
 
 const { Title, Text } = Typography;
 
-interface Option {
-  id: number;
-  text: string;
+interface QuestionnaireProps {
+  questionnaire: IQuestionnaire;
+  onSubmit: (results: (number | null)[]) => void;
 }
 
-interface Question {
-  id: number;
-  question: string;
-  options: Option[];
-}
-
-interface Questionnaire {
-  version: string;
-  questions: Question[];
-}
-
-const FilmQuestionnaire: React.FC = () => {
-  const [questionnaire, setQuestionnaire] = useState<Questionnaire | null>(null);
+const Questionnaire: React.FC<QuestionnaireProps> = ({ questionnaire, onSubmit }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedOption, setSelectedOption] = useState<Option | null>(null);
-  const [results, setResults] = useState<(number | null)[]>([]);
-
-  useEffect(() => {
-    api.get('questionnaire/?format=json')
-      .then((response: { data: Questionnaire }) => {
-        setQuestionnaire(response.data);
-      })
-      .catch((error: Error) => {
-        console.error(error);
-      });
-  }, []);
-
-  useEffect(() => {
-    if (questionnaire) {
-      setResults(new Array(questionnaire.questions.length).fill(null));
-    }
-  }, [questionnaire]);
+  const [selectedOption, setSelectedOption] = useState<IOption | null>(null);
+  const [results, setResults] = useState<(number | null)[]>(new Array(questionnaire.questions.length).fill(null));
 
   const handleAnswerChange = (e: RadioChangeEvent) => {
     setSelectedOption(e.target.value);
   };
 
-  if (!questionnaire) {
-    return <Loading />;
-  }
-
   const handleNextQuestion = () => {
     if (selectedOption) {
-      // save the answer
       const newResults = [...results];
       newResults[currentQuestionIndex] = selectedOption.id;
       setResults(newResults);
+      
       if (currentQuestionIndex < questionnaire.questions.length - 1) {
-        // go to next question
         setCurrentQuestionIndex(currentQuestionIndex + 1);
         setSelectedOption(null);
       } else {
-        // questionaire is done
-        alert(JSON.stringify({ version: questionnaire.version, results: newResults }));
-        // send the results to the server
+        onSubmit(newResults); // Submit results to parent component
       }
     }
   };
@@ -115,4 +79,4 @@ const FilmQuestionnaire: React.FC = () => {
   );
 };
 
-export default FilmQuestionnaire;
+export default Questionnaire;
