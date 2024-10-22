@@ -2,7 +2,7 @@ import React, { ReactNode, Suspense } from 'react';
 import { Layout, theme } from 'antd';
 import Sidebar from './Sidebar';
 import { Outlet } from 'react-router-dom';
-import Loading from '../pages/Loading';
+import Loading from '../common/Loading';
 import Logo from './Logo';
 
 const { Content, Footer, Header } = Layout;
