@@ -63,7 +63,7 @@ class QuestionnaireAPIView(APIView):
             {
                 "id": 0,
                 "title": "The Godfather",
-                "genre": "Crime, Drama",
+                "genres": ["Crime", "Drama"],
                 "year": 1972,
                 "rating": 9.2,
                 "duration": "175 min",
@@ -72,7 +72,7 @@ class QuestionnaireAPIView(APIView):
             {
                 "id": 1,
                 "title": "The Shawshank Redemption",
-                "genre": "Drama",
+                "genres": ["Drama"],
                 "year": 1994,
                 "rating": 9.3,
                 "duration": "142 min",
@@ -81,7 +81,7 @@ class QuestionnaireAPIView(APIView):
             {
                 "id": 2,
                 "title": "Inception",
-                "genre": "Action, Adventure, Sci-Fi",
+                "genres": ["Action", "Adventure", "Sci-Fi"],
                 "year": 2010,
                 "rating": 8.8,
                 "duration": "148 min",
@@ -90,7 +90,7 @@ class QuestionnaireAPIView(APIView):
             {
                 "id": 3,
                 "title": "The Dark Knight",
-                "genre": "Action, Crime, Drama",
+                "genres": ["Action", "Crime", "Drama"],
                 "year": 2008,
                 "rating": 9.0,
                 "duration": "152 min",
@@ -99,7 +99,7 @@ class QuestionnaireAPIView(APIView):
             {
                 "id": 4,
                 "title": "Pulp Fiction",
-                "genre": "Crime, Drama",
+                "genres": ["Crime", "Drama"],
                 "year": 1994,
                 "rating": 8.9,
                 "duration": "154 min",
