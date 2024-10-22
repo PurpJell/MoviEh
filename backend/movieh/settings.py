@@ -29,6 +29,7 @@ DEBUG = os.getenv('ENV', 'dev') == 'dev'
 
 ALLOWED_HOSTS = []
 
+
 # Application definition
 
 INSTALLED_APPS = [
