@@ -1,5 +1,5 @@
 import React, { ReactNode, Suspense } from 'react';
-import { Layout } from 'antd';
+import { Layout, theme } from 'antd';
 import Sidebar from './Sidebar';
 import { Outlet } from 'react-router-dom';
 import Loading from '../pages/Loading';
@@ -12,6 +12,10 @@ interface AppLayoutProps {
 }
 
 const AppLayout: React.FC<AppLayoutProps> = ({children}) => {
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Header style={{
@@ -25,7 +29,12 @@ const AppLayout: React.FC<AppLayoutProps> = ({children}) => {
       <Layout>
         <Sidebar />
         <Layout>
-          <Content style={{ margin: '16px', justifyContent: 'center', display: 'flex' }}>
+          <Content style={{
+            margin: '24px',
+            textAlign: 'center',
+            background: colorBgContainer,
+            borderRadius: borderRadiusLG,
+            }}>
             <Suspense fallback={<Loading />}>
               {children ?? <Outlet />}
             </Suspense>
