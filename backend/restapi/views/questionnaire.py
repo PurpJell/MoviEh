@@ -59,10 +59,59 @@ class QuestionnaireAPIView(APIView):
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
+        film_recommendations = [
+            {
+                "id": 0,
+                "title": "The Godfather",
+                "genres": ["Crime", "Drama"],
+                "year": 1972,
+                "rating": 9.2,
+                "duration": "175 min",
+                "description": "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",  # noqa: E501
+            },
+            {
+                "id": 1,
+                "title": "The Shawshank Redemption",
+                "genres": ["Drama"],
+                "year": 1994,
+                "rating": 9.3,
+                "duration": "142 min",
+                "description": "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",  # noqa: E501
+            },
+            {
+                "id": 2,
+                "title": "Inception",
+                "genres": ["Action", "Adventure", "Sci-Fi"],
+                "year": 2010,
+                "rating": 8.8,
+                "duration": "148 min",
+                "description": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.",  # noqa: E501
+            },
+            {
+                "id": 3,
+                "title": "The Dark Knight",
+                "genres": ["Action", "Crime", "Drama"],
+                "year": 2008,
+                "rating": 9.0,
+                "duration": "152 min",
+                "description": "When the menace known as the Joker emerges from his mysterious past, he wreaks havoc and chaos on the people of Gotham. The Dark Knight must accept one of the greatest psychological and physical tests of his ability to fight injustice.",  # noqa: E501
+            },
+            {
+                "id": 4,
+                "title": "Pulp Fiction",
+                "genres": ["Crime", "Drama"],
+                "year": 1994,
+                "rating": 8.9,
+                "duration": "154 min",
+                "description": "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",  # noqa: E501
+            }
+        ]
+
         # Format the response
         response_data = {
             "version": version,
-            "results": results
+            "results": results,
+            "recommendations": film_recommendations
         }
 
         return Response(response_data, status=status.HTTP_200_OK)
