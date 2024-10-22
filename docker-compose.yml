@@ -6,7 +6,7 @@ services:
       args:
         - PORT=80
     environment:
-      BACKEND_URL: "http://backend:8000"
+      BACKEND_URL: "http://backend:8000/rest-api/"
       PORT: 80
     networks:
       - app-network
@@ -21,7 +21,7 @@ services:
       dockerfile: Dockerfile
     environment:
       DATABASE_URL: "postgresql://user:password@database:5432/movieh"
-      ENV: dev
+      ENV: test
     networks:
       - app-network
     ports:
