@@ -9,40 +9,96 @@ class QuestionnaireAPIView(APIView):
 
     def get(self, request):
         return Response({
-            "version": "1.0",
+            "version": "1.1",
             "questions": [
                 {
                     "id": 0,
-                    "question": "Which of these movies do you like the most?",
+                    "question": "How would you describe your current emotional state?",  # noqa: E501
+                    # "type": "radio", # should i add this field?
                     "options": [
-                        {"id": 0, "text": "The Godfather"},
-                        {"id": 1, "text": "The Shawshank Redemption"},
-                        {"id": 2, "text": "The Dark Knight"},
-                        {"id": 3, "text": "Pulp Fiction"},
+                        {"id": 0, "text": "Happy and joyful"},
+                        {"id": 1, "text": "Calm and relaxed"},
+                        {"id": 2, "text": "Anxious and stressed"},
+                        {"id": 3, "text": "Sad and melancholic"},
+                        {"id": 4, "text": "Excited and energetic"},
+                        {"id": 5, "text": "Bored or indifferent"},
+                        {"id": 6, "text": "Mad or angry"},
                     ],
                 },
                 {
                     "id": 1,
-                    "question": "Which actor is your favorite?",
+                    "question": "Are you in the mood for something that matches your current mood or emotion, or contrasts it?",  # noqa: E501
+                    # "type": "radio",
                     "options": [
-                        {"id": 0, "text": "Robert De Niro"},
-                        {"id": 1, "text": "Tom Hanks"},
-                        {"id": 2, "text": "Leonardo DiCaprio"},
-                        {"id": 3, "text": "Morgan Freeman"},
-                        {"id": 4, "text": "Samuel L. Jackson"},
-                        {"id": 5, "text": "Brad Pitt"},
+                        {"id": 0, "text": "Matches my mood"},
+                        {"id": 1, "text": "Contrasts with my mood"},
                     ],
                 },
                 {
                     "id": 2,
-                    "question": "What genre do you prefer?",
+                    "question": "What type of feeling do you want the movie to evoke?",  # noqa: E501
+                    # "type": "radio",
                     "options": [
-                        {"id": 0, "text": "Action"},
-                        {"id": 1, "text": "Comedy"},
-                        {"id": 2, "text": "Drama"},
-                        {"id": 3, "text": "Horror"},
+                        {"id": 0, "text": "Happiness and laughter"},
+                        {"id": 1, "text": "Thrills and excitement"},
+                        {"id": 2, "text": "Comfort and warmth"},
+                        {"id": 3, "text": "Inspiration and motivation"},
+                        {"id": 4, "text": "Suspense and mystery"},
+                        {"id": 5, "text": "Nostalgia and reflection"},
                     ],
                 },
+                {
+                    "id": 3,
+                    "question": "You prefer a movie that is: (choose one)",
+                    # "type": "radio",
+                    "options": [
+                        {"id": 0, "text": "Lighthearted and fun"},
+                        {"id": 1, "text": "Deep and thought-provoking"},
+                        {"id": 2, "text": "Romantic and emotional"},
+                        {"id": 3, "text": "Action-packed and fast-paced"},
+                        {"id": 4, "text": "Dark and intense"},
+                        {"id": 5, "text": "Calm and slow-paced"},
+                        ],
+                },
+                {
+                    "id": 4,
+                    "question": "You are looking for a story that: (choose one)",  # noqa: E501
+                    # "type": "radio",
+                    "options": [
+                        {"id": 0, "text": "Lifts mood and makes you laugh"},
+                        {"id": 1, "text": "Challenges you to think and question"},  # noqa: E501
+                        {"id": 2, "text": "Makes you feel cozy and at ease"},
+                        {"id": 3, "text": "Gives you a rush of adrenaline"},
+                        {"id": 4, "text": "Unfolds in a mysterious and unpredictable way"},  # noqa: E501
+                        {"id": 5, "text": "Evokes a sense of wonder and awe"},
+                    ],
+                },
+                {
+                    "id": 5,
+                    "question": "If you could choose one word to descibe what you want from the movie experience, what would it be?",  # noqa: E501
+                    # "type": "checkbox",
+                    "options": [
+                        {"id": 0, "text": "Joy"},
+                        {"id": 1, "text": "Adventure"},
+                        {"id": 2, "text": "Peace"},
+                        {"id": 3, "text": "Romance"},
+                        {"id": 4, "text": "Fear"},
+                        {"id": 5, "text": "Curiosity"},
+                    ],
+                },
+                {
+                    "id": 6,
+                    "question": "You want a movie that: (choose one)",
+                    # "type": "checkbox",
+                    "options": [
+                        {"id": 0, "text": "Focuses on character development and emotions"},  # noqa: E501
+                        {"id": 1, "text": "Explores a captivating plot or mystery"},  # noqa: E501
+                        {"id": 2, "text": "Takes you on an imaginative journey"},  # noqa: E501
+                        {"id": 3, "text": "Is realistic and relatable"},
+                        {"id": 4, "text": "Has unexpected twists and surprises"},  # noqa: E501
+                        {"id": 5, "text": "Delivers action and excitement from start to finish"},  # noqa: E501
+                    ],
+                }
             ],
         }, status=status.HTTP_200_OK)
 
@@ -51,14 +107,51 @@ class QuestionnaireAPIView(APIView):
         version = request.data.get('version', None)
         results = request.data.get('results', [])
 
+        text_answers = []
+        tags = []
+
         # Validate the results (optional)
         if not isinstance(results, list):
-            if not all(isinstance(result, int) for result in results):
-                return Response(
-                    {"error": "Invalid results format"},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
+            for result in results:
+                if (result.id <= 2):  # for questions 0, 1, 2 (version 1.1)
+                    if not isinstance(result, str):
+                        return Response(
+                            {"error": f"Invalid results format for question {result.id}", "id": result.id},  # noqa: E501
+                            status=status.HTTP_400_BAD_REQUEST
+                        )
+                else:
+                    if not isinstance(result, list):
+                        if not all(isinstance(option, int) for option in result):  # noqa: E501
+                            return Response(
+                                {"error": f"Invalid results format for question {result.id}", "id": result.id},  # noqa: E501
+                                status=status.HTTP_400_BAD_REQUEST  # noqa: E501
+                            )
 
+        for result in results:
+            if (result.id <= 2):  # for questions 0, 1, 2 (version 1.1)
+                text_answers.append(result)
+            else:
+                for option in result:
+                    tags.append(option)
+
+        tags = list(set(tags))  # remove duplicates
+
+        # !!! send text_answers and tags to chatGPT to get film recommendations
+        film_recommendations = self.get_recommendations(text_answers, tags)  # noqa: E501 TEMPORARY
+
+        # Format the response
+        response_data = {
+            "version": version,
+            "results": results,
+            "text_answers": text_answers,
+            "tags": tags,
+            "recommendations": film_recommendations
+        }
+
+        return Response(response_data, status=status.HTTP_200_OK)
+
+    def get_recommendations(text_answers, tags):
+        # !!! send text_answers and tags to chatGPT to get film recommendations
         film_recommendations = [
             {
                 "id": 0,
@@ -107,11 +200,4 @@ class QuestionnaireAPIView(APIView):
             }
         ]
 
-        # Format the response
-        response_data = {
-            "version": version,
-            "results": results,
-            "recommendations": film_recommendations
-        }
-
-        return Response(response_data, status=status.HTTP_200_OK)
+        return film_recommendations
