@@ -105,9 +105,6 @@ class QuestionnaireAPIView(APIView):
         # Extract results from the request data
         results = request.data.get('results', [])
 
-        text_answers = []
-        tags = []
-
         # Validate the results (optional)
         if not isinstance(results, list):
             for result in results:
@@ -124,6 +121,9 @@ class QuestionnaireAPIView(APIView):
                                 {"error": f"Invalid results format for question {result.id}"},  # noqa: E501
                                 status=status.HTTP_400_BAD_REQUEST  # noqa: E501
                             )
+
+        text_answers = []
+        tags = []
 
         for result in results:
             if (result.id <= 2):  # for questions 0, 1, 2
