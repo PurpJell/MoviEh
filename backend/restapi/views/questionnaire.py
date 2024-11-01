@@ -9,7 +9,6 @@ class QuestionnaireAPIView(APIView):
 
     def get(self, request):
         return Response({
-            "version": "1.1",
             "questions": [
                 {
                     "id": 0,
@@ -104,7 +103,6 @@ class QuestionnaireAPIView(APIView):
 
     def post(self, request):
         # Extract results from the request data
-        version = request.data.get('version', None)
         results = request.data.get('results', [])
 
         text_answers = []
@@ -113,7 +111,7 @@ class QuestionnaireAPIView(APIView):
         # Validate the results (optional)
         if not isinstance(results, list):
             for result in results:
-                if (result.id <= 2):  # for questions 0, 1, 2 (version 1.1)
+                if (result.id <= 2):  # for questions 0, 1, 2
                     if not isinstance(result, str):
                         return Response(
                             {"error": f"Invalid results format for question {result.id}"},  # noqa: E501
@@ -128,7 +126,7 @@ class QuestionnaireAPIView(APIView):
                             )
 
         for result in results:
-            if (result.id <= 2):  # for questions 0, 1, 2 (version 1.1)
+            if (result.id <= 2):  # for questions 0, 1, 2
                 text_answers.append(result)
             else:
                 for option in result:
@@ -141,10 +139,7 @@ class QuestionnaireAPIView(APIView):
 
         # Format the response
         response_data = {
-            "version": version,
             "results": results,
-            "text_answers": text_answers,
-            "tags": tags,
             "recommendations": film_recommendations
         }
 
