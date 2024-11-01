@@ -3,10 +3,12 @@ from typing import List
 from django.conf import settings
 from dataclasses import dataclass
 
+
 @dataclass
 class Option:
     text: str
     result: List[str]
+
 
 @dataclass
 class Question:
@@ -14,6 +16,7 @@ class Question:
     type: str
     resultType: str
     options: List[Option]
+
 
 @dataclass
 class Questionnaire:
@@ -23,4 +26,4 @@ class Questionnaire:
         questions = settings.BASE_DIR / 'restapi' / 'data' / 'questions.json'
         with open(questions, 'r') as file:
             questionnaire = json.load(file)
-            self.questions = [Question(**question) for question in questionnaire]
+            self.questions = [Question(**question) for question in questionnaire]  # noqa: E501

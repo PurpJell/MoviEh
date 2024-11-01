@@ -15,21 +15,26 @@ class QuestionnaireAPIView(APIView):
         self.service = RecommendationService(self.questionnaire.questions)
 
     def get(self, request):
-        return JsonResponse({"questions": self.questionnaire.questions}, status=status.HTTP_200_OK)
+        return JsonResponse(
+            {"questions": self.questionnaire.questions},
+            status=status.HTTP_200_OK
+        )
 
     def post(self, request):
         # Extract results from the request data
         results = request.data.get('results', [])
 
         # Validate the results
-        if not isinstance(results, list): # check if results is a list
+        if not isinstance(results, list):  # check if results is a list
             for phrase in results.phrases:
-                if not isinstance(phrase, str):  # check if all phrases are strings
+                # check if all phrases are strings
+                if not isinstance(phrase, str):
                     return Response(
                         {"error": "Invalid phrase format"},
                         status=status.HTTP_400_BAD_REQUEST
                     )
-                if not all(isinstance(tag, str) for tag in results.tags):  # check if all tags are strings
+                # check if all tags are strings
+                if not all(isinstance(tag, str) for tag in results.tags):
                     return Response(
                         {"error": "Invalid tag format"},
                         status=status.HTTP_400_BAD_REQUEST
