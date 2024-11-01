@@ -14,7 +14,7 @@ class QuestionnaireAPIView(APIView):
                 {
                     "id": 0,
                     "question": "How would you describe your current emotional state?",  # noqa: E501
-                    # "type": "radio", # should i add this field?
+                    "type": "radio",
                     "options": [
                         {"id": 0, "text": "Happy and joyful"},
                         {"id": 1, "text": "Calm and relaxed"},
@@ -28,7 +28,7 @@ class QuestionnaireAPIView(APIView):
                 {
                     "id": 1,
                     "question": "Are you in the mood for something that matches your current mood or emotion, or contrasts it?",  # noqa: E501
-                    # "type": "radio",
+                    "type": "radio",
                     "options": [
                         {"id": 0, "text": "Matches my mood"},
                         {"id": 1, "text": "Contrasts with my mood"},
@@ -37,7 +37,7 @@ class QuestionnaireAPIView(APIView):
                 {
                     "id": 2,
                     "question": "What type of feeling do you want the movie to evoke?",  # noqa: E501
-                    # "type": "radio",
+                    "type": "radio",
                     "options": [
                         {"id": 0, "text": "Happiness and laughter"},
                         {"id": 1, "text": "Thrills and excitement"},
@@ -50,7 +50,7 @@ class QuestionnaireAPIView(APIView):
                 {
                     "id": 3,
                     "question": "You prefer a movie that is: (choose one)",
-                    # "type": "radio",
+                    "type": "radio",
                     "options": [
                         {"id": 0, "text": "Lighthearted and fun"},
                         {"id": 1, "text": "Deep and thought-provoking"},
@@ -63,7 +63,7 @@ class QuestionnaireAPIView(APIView):
                 {
                     "id": 4,
                     "question": "You are looking for a story that: (choose one)",  # noqa: E501
-                    # "type": "radio",
+                    "type": "radio",
                     "options": [
                         {"id": 0, "text": "Lifts mood and makes you laugh"},
                         {"id": 1, "text": "Challenges you to think and question"},  # noqa: E501
@@ -76,7 +76,7 @@ class QuestionnaireAPIView(APIView):
                 {
                     "id": 5,
                     "question": "If you could choose one word to descibe what you want from the movie experience, what would it be?",  # noqa: E501
-                    # "type": "checkbox",
+                    "type": "checkbox",
                     "options": [
                         {"id": 0, "text": "Joy"},
                         {"id": 1, "text": "Adventure"},
@@ -89,7 +89,7 @@ class QuestionnaireAPIView(APIView):
                 {
                     "id": 6,
                     "question": "You want a movie that: (choose one)",
-                    # "type": "checkbox",
+                    "type": "checkbox",
                     "options": [
                         {"id": 0, "text": "Focuses on character development and emotions"},  # noqa: E501
                         {"id": 1, "text": "Explores a captivating plot or mystery"},  # noqa: E501
