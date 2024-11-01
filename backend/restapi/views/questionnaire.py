@@ -2,8 +2,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
-from backend.restapi.services import recommendation as RecommendationService
-from backend.restapi.models import Questionnaire
+from ..services import recommendation as RecommendationService
+from ..models import Questionnaire
 from django.http import JsonResponse
 
 
@@ -36,6 +36,8 @@ class QuestionnaireAPIView(APIView):
                     )
 
         film_recommendations = RecommendationService.get_recommendations(results.phrases, results.tags)  # noqa: E501
+
+        print(film_recommendations)
 
         # Format the response
         response_data = {
