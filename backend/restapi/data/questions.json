@@ -1,0 +1,92 @@
+{
+    "questions": [
+        {
+            "question": "How would you describe your current emotional state?",
+            "type": "radio",
+            "resultType": "phrase",
+            "options": [
+                {"text": "Happy and joyful"},
+                {"text": "Calm and relaxed"},
+                {"text": "Anxious and stressed"},
+                {"text": "Sad and melancholic"},
+                {"text": "Excited and energetic"},
+                {"text": "Bored or indifferent"},
+                {"text": "Mad or angry"}
+            ]
+        },
+        {
+            "question": "Are you in the mood for something that matches your current mood or emotion, or contrasts it?",
+            "type": "radio",
+            "resultType": "phrase",
+            "options": [
+                {"text": "Matches my mood"},
+                {"text": "Contrasts with my mood"}
+            ]
+        },
+        {
+            "question": "What type of feeling do you want the movie to evoke?",
+            "type": "radio",
+            "resultType": "phrase",
+            "options": [
+                {"text": "Happiness and laughter"},
+                {"text": "Thrills and excitement"},
+                {"text": "Comfort and warmth"},
+                {"text": "Inspiration and motivation"},
+                {"text": "Suspense and mystery"},
+                {"text": "Nostalgia and reflection"}
+            ]
+        },
+        {
+            "question": "You prefer a movie that is: (choose one)",
+            "type": "radio",
+            "resultType": "tags",
+            "options": [
+                {"text": "Lighthearted and fun"},
+                {"text": "Deep and thought-provoking"},
+                {"text": "Romantic and emotional"},
+                {"text": "Action-packed and fast-paced"},
+                {"text": "Dark and intense"},
+                {"text": "Calm and slow-paced"}
+                ]
+        },
+        {
+            "question": "You are looking for a story that: (choose one)",
+            "type": "radio",
+            "resultType": "tags",
+            "options": [
+                {"text": "Lifts mood and makes you laugh"},
+                {"text": "Challenges you to think and question"},
+                {"text": "Makes you feel cozy and at ease"},
+                {"text": "Gives you a rush of adrenaline"},
+                {"text": "Unfolds in a mysterious and unpredictable way"},
+                {"text": "Evokes a sense of wonder and awe"}
+            ]
+        },
+        {
+            "question": "If you could choose one word to descibe what you want from the movie experience, what would it be?",
+            "type": "checkbox",
+            "resultType": "tags",
+            "options": [
+                {"text": "Joy"},
+                {"text": "Adventure"},
+                {"text": "Peace"},
+                {"text": "Romance"},
+                {"text": "Fear"},
+                {"text": "Curiosity"}
+            ]
+        },
+        {
+            "question": "You want a movie that: (choose one)",
+            "type": "checkbox",
+            "resultType": "tags",
+            "options": [
+                {"text": "Focuses on character development and emotions"},
+                {"text": "Explores a captivating plot or mystery"},
+                {"text": "Takes you on an imaginative journey"},
+                {"text": "Is realistic and relatable"},
+                {"text": "Has unexpected twists and surprises"},
+                {"text": "Delivers action and excitement from start to finish"}
+            ]
+        }
+    ]
+}
