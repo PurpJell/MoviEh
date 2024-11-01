@@ -116,14 +116,14 @@ class QuestionnaireAPIView(APIView):
                 if (result.id <= 2):  # for questions 0, 1, 2 (version 1.1)
                     if not isinstance(result, str):
                         return Response(
-                            {"error": f"Invalid results format for question {result.id}", "id": result.id},  # noqa: E501
+                            {"error": f"Invalid results format for question {result.id}"},  # noqa: E501
                             status=status.HTTP_400_BAD_REQUEST
                         )
                 else:
                     if not isinstance(result, list):
                         if not all(isinstance(option, int) for option in result):  # noqa: E501
                             return Response(
-                                {"error": f"Invalid results format for question {result.id}", "id": result.id},  # noqa: E501
+                                {"error": f"Invalid results format for question {result.id}"},  # noqa: E501
                                 status=status.HTTP_400_BAD_REQUEST  # noqa: E501
                             )
 
@@ -151,7 +151,32 @@ class QuestionnaireAPIView(APIView):
         return Response(response_data, status=status.HTTP_200_OK)
 
     def get_recommendations(text_answers, tags):
-        # !!! send text_answers and tags to chatGPT to get film recommendations
+
+        limit = 10  # number of movies to return
+        example = [
+            {
+                "id": 0,
+                "title": "The Godfather",
+                "genres": ["Crime", "Drama"],
+                "year": 1972,
+                "rating": 9.2,
+                "duration": 175,
+                "description": "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",  # noqa: E501
+            },
+            {
+                "id": 1,
+                "title": "The Shawshank Redemption",
+                "genres": ["Drama"],
+                "year": 1994,
+                "rating": 9.3,
+                "duration": 142,
+                "description": "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",  # noqa: E501
+            },
+        ]
+
+        prompt = f"I'm in the mood for a movie that is {text_answers[0]}, {text_answers[1]}, evokes {text_answers[2]} and fits as many of these tags, as possible: " + ", ".join(tags) + f". Return me nothing else but {limit} movies in this format: {example}"  # noqa: E501
+
+        # !!! send the prompt to chatGPT to get film recommendations
         film_recommendations = [
             {
                 "id": 0,
