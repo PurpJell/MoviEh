@@ -27,7 +27,7 @@ class Questionnaire:
         questions = settings.BASE_DIR / 'restapi' / 'data' / 'questions.json'
         with open(questions, 'r') as file:
             questionnaire = json.load(file)
-            self.questions = [Question(**question) for question in questionnaire]  # noqa: E501
+            self.questions = [Question(**question) for question in questionnaire]
 
 
 @dataclass

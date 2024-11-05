@@ -14,5 +14,5 @@ class QuestionSerializer(serializers.Serializer):
 
 
 class QuestionnaireResultSerializer(serializers.Serializer):
-    phrases = serializers.ListField(child=serializers.CharField(max_length=255))  # noqa: E501
+    phrases = serializers.ListField(child=serializers.CharField(max_length=255))
     tags = serializers.ListField(child=serializers.CharField(max_length=255))
