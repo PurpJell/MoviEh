@@ -14,10 +14,7 @@ class GptRecommendationService:
 
         self.response_format = Recommendation
 
-    def get_recommendations(self, request):
-
-        phrases = request['phrases']
-        tags = request['tags']
+    def get_recommendations(self, phrases, tags):
 
         prompt = (
             f"Recommend me a movie that is {phrases[0]}, {phrases[1]}, evokes {phrases[2]} "
@@ -33,7 +30,6 @@ class GptRecommendationService:
             temperature=0,
             response_format=self.response_format
         )
-        
 
         try:
             # Parse and validate the response content
