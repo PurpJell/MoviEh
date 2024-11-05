@@ -2,20 +2,20 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
-from ..services.recommendation import GptRecommendationService
-from ..services.mock_recommendation import MockGptRecommendationService
-from ..serializers import QuestionnaireResultSerializer
+from restapi.services import GptRecommendationService, MockRecommendationService
+from serializers import QuestionnaireResultSerializer
 import os
+
 
 
 class RecommendationsAPIView(APIView):
     permissionClasses = [AllowAny]
 
     def __init__(self):
-        if os.getenv("ENV") == "dev":
-            self.service = MockGptRecommendationService()
-        else:
+        if os.getenv("ENV") == "prod":
             self.service = GptRecommendationService()
+        else:
+            self.service = MockRecommendationService()
 
     def post(self, request):
         # Extract results from the request data
