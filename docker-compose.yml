@@ -3,10 +3,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-      args:
-        - PORT=80
     environment:
-      BACKEND_URL: "http://backend:8000/rest-api/"
       PORT: 80
     networks:
       - app-network
@@ -25,9 +22,10 @@ services:
     networks:
       - app-network
     ports:
-      - "8000:8000"
+      - "8001:8000"
     depends_on:
-      - database
+      database:
+        condition: service_healthy
 
   database:
     image: postgres:17-alpine
@@ -41,6 +39,12 @@ services:
       - "5432:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
 networks:
   app-network:
