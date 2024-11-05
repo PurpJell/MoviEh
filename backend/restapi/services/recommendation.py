@@ -53,7 +53,7 @@ class GptRecommendationService:
         prompt = f"I'm in the mood for a movie that is {phrases[0]}, {phrases[1]}, evokes {phrases[2]} and fits as many of these tags, as possible: " + ", ".join(tags) + f". Return me {self.limit} movies."  # noqa: E501
 
         response = self.client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4o",
             messages=[
                 {"role": "user", "content": prompt}
             ],
