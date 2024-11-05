@@ -37,19 +37,6 @@
             ]
         },
         {
-            "question": "What type of feeling do you want the movie to evoke?",
-            "type": "radio",
-            "resultType": "phrase",
-            "options": [
-                {"text": "Happiness and laughter", "result": ["Happiness and laughter"]},
-                {"text": "Thrills and excitement", "result": ["Thrills and excitement"]},
-                {"text": "Comfort and warmth", "result": ["Comfort and warmth"]},
-                {"text": "Inspiration and motivation", "result": ["Inspiration and motivation"]},
-                {"text": "Suspense and mystery", "result": ["Suspense and mystery"]},
-                {"text": "Nostalgia and reflection", "result": ["Nostalgia and reflection"]}
-            ]
-        },
-        {
             "question": "You prefer a movie that is: (choose one)",
             "type": "radio",
             "resultType": "tags",

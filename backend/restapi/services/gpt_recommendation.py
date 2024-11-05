@@ -26,8 +26,8 @@ class GptRecommendationService:
             messages=[
                 {"role": "user", "content": prompt}
             ],
-            max_tokens=self.limit * 500,
-            temperature=1.5,
+            # max_tokens=self.limit * 1000,
+            temperature=0,
             response_format=self.response_format
         )
 

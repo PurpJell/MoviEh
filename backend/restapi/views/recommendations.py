@@ -8,7 +8,7 @@ import os
 
 
 class RecommendationsAPIView(APIView):
-    permissionClasses = [AllowAny]
+    permission_classes = [AllowAny]
 
     def __init__(self):
         if os.getenv("ENV") == "dev":
@@ -20,7 +20,7 @@ class RecommendationsAPIView(APIView):
 
     def post(self, request):
         # Extract results from the request data
-        results = request.data.get('results', [])
+        results = request.data
 
         # Use the serializer to validate the results
         serializer = QuestionnaireResultSerializer(data=results)
