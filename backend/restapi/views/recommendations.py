@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from restapi.services import GptRecommendationService, MockRecommendationService
-from serializers import QuestionnaireResultSerializer
+from ..serializers import QuestionnaireResultSerializer
 import os
 
 
@@ -12,7 +12,7 @@ class RecommendationsAPIView(APIView):
 
     def __init__(self):
         if os.getenv("ENV") == "dev":
-            self.service = MockGptRecommendationService()
+            self.service = MockRecommendationService()
         elif os.getenv("ENV") == "prod":
             self.service = GptRecommendationService()
         else:
