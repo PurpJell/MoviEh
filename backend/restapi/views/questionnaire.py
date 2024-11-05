@@ -13,6 +13,6 @@ class QuestionnaireAPIView(APIView):
 
     def get(self, request):
         return JsonResponse(
-            {"questions": self.questionnaire.questions},
+            {"questions": self.questionnaire.to_dict()['questions']},
             status=status.HTTP_200_OK
         )
