@@ -13,6 +13,6 @@ class QuestionSerializer(serializers.Serializer):
     options = OptionSerializer(many=True)
 
 
-class QuestionnaireResultsSerializer(serializers.Serializer):
+class QuestionnaireResultSerializer(serializers.Serializer):
     phrases = serializers.ListField(child=serializers.CharField(max_length=255))  # noqa: E501
     tags = serializers.ListField(child=serializers.CharField(max_length=255))

@@ -31,7 +31,7 @@ class Questionnaire:
 
 
 @dataclass
-class QuestionnaireResults:
+class QuestionnaireResult:
     phrases: List[str]
     tags: List[str]
 
@@ -45,5 +45,5 @@ class Movie(BaseModel):
     description: str
 
 
-class Recommendations(BaseModel):
+class Recommendation(BaseModel):
     movies: List[Movie]

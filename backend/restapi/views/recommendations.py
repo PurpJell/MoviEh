@@ -2,9 +2,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
-from ..services import recommendation as GPTRecommendationService
-from ..services import mock_recommendation as MockGPTRecommendationService
-from ..serializers import QuestionnaireResultsSerializer
+from services import GptRecommendationService
+from services import MockGptRecommendationService
+from serializers import QuestionnaireResultSerializer
 import os
 
 
@@ -13,16 +13,16 @@ class RecommendationsAPIView(APIView):
 
     def __init__(self):
         if os.getenv("ENV") == "dev":
-            self.service = MockGPTRecommendationService()
+            self.service = MockGptRecommendationService()
         else:
-            self.service = GPTRecommendationService()
+            self.service = GptRecommendationService()
 
     def post(self, request):
         # Extract results from the request data
         results = request.data.get('results', [])
 
         # Use the serializer to validate the results
-        serializer = QuestionnaireResultsSerializer(data=results)
+        serializer = QuestionnaireResultSerializer(data=results)
         if not serializer.is_valid():
             return Response(
                 {"error": serializer.errors},

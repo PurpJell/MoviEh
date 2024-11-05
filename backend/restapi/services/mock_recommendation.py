@@ -1,4 +1,4 @@
-class GptRecommendationService:
+class MockGptRecommendationService:
 
     def __init__(self):
 
