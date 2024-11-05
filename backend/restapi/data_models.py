@@ -2,6 +2,7 @@ import json
 from typing import List
 from django.conf import settings
 from dataclasses import dataclass
+from pydantic import BaseModel
 
 
 @dataclass
@@ -30,13 +31,12 @@ class Questionnaire:
 
 
 @dataclass
-class Results:
+class QuestionnaireResults:
     phrases: List[str]
     tags: List[str]
 
 
-@dataclass
-class Movie:
+class Movie(BaseModel):
     title: str
     genres: List[str]
     year: int
@@ -45,6 +45,5 @@ class Movie:
     description: str
 
 
-@dataclass
-class Recommendations:
+class Recommendations(BaseModel):
     movies: List[Movie]
