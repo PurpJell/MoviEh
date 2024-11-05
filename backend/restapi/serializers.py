@@ -11,3 +11,8 @@ class QuestionSerializer(serializers.Serializer):
     type = serializers.ChoiceField(choices=["radio", "checkbox"])
     resultType = serializers.ChoiceField(choices=["phrase", "tags"])
     options = OptionSerializer(many=True)
+
+
+class ResultsSerializer(serializers.Serializer):
+    phrases = serializers.ListField(child=serializers.CharField(max_length=255))  # noqa: E501
+    tags = serializers.ListField(child=serializers.CharField(max_length=255))

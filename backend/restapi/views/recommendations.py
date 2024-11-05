@@ -2,22 +2,15 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
-from ..models import Questionnaire
+from ..services import recommendation as RecommendationService
 from ..serializers import ResultsSerializer
-from django.http import JsonResponse
 
 
-class QuestionnaireAPIView(APIView):
-    permission_classes = [AllowAny]
+class RecommendationsAPIView(APIView):
+    permissionClasses = [AllowAny]
 
     def __init__(self):
-        self.questionnaire = Questionnaire()
-
-    def get(self, request):
-        return JsonResponse(
-            {"questions": self.questionnaire.questions},
-            status=status.HTTP_200_OK
-        )
+        self.service = RecommendationService()
 
     def post(self, request):
         # Extract results from the request data
@@ -31,11 +24,14 @@ class QuestionnaireAPIView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
+        phrases = serializer.validated_data['phrases']
         tags = serializer.validated_data['tags']
+
+        film_recommendations = self.service.get_recommendations(phrases, tags)  # noqa: E501
 
         # Format the response
         response_data = {
-            "tags": tags,
+            "recommendations": film_recommendations,
         }
 
         return Response(response_data, status=status.HTTP_200_OK)

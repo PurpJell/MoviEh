@@ -1,45 +1,71 @@
 from openai import OpenAI
 import os
+from ..models import Recommendations
+from pydantic import ValidationError
 
 
-def get_recommendations(phrases, tags):
+class GptRecommendationService:
 
-    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    def __init__(self):
 
-    limit = 10  # number of movies to return
+        self.client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-    example = [
-        {
-            "id": 0,
-            "title": "The Godfather",
-            "genres": ["Crime", "Drama"],
-            "year": 1972,
-            "rating": 9.2,
-            "duration": 175,
-            "description": "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",  # noqa: E501
-        },
-        {
-            "id": 1,
-            "title": "The Shawshank Redemption",
-            "genres": ["Drama"],
-            "year": 1994,
-            "rating": 9.3,
-            "duration": 142,
-            "description": "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",  # noqa: E501
-        },
-    ]
+        self.limit = 10  # number of movies to return
 
-    prompt = f"I'm in the mood for a movie that is {phrases[0]}, {phrases[1]}, evokes {phrases[2]} and fits as many of these tags, as possible: " + ", ".join(tags) + f". Return me nothing else but {limit} movies in this format: {example}"  # noqa: E501
+        self.response_format = {
+            "type": "json_schema",
+            "json_schema": {
+                "name": "movie_recommendations",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "movies": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {"type": "string"},
+                                    "genres": {
+                                        "type": "array",
+                                        "items": {
+                                            "genre": {"type": "string"}
+                                        }
+                                    },
+                                    "year": {"type": "integer"},
+                                    "rating": {"type": "number"},
+                                    "duration": {"type": "integer"},
+                                    "description": {"type": "string"}
+                                },
+                                "required": ["title", "genres", "year", "rating", "duration", "description"],  # noqa: E501
+                                "additionalProperties": False
+                            }
+                        },
+                    },
+                    "required": ["movies"],
+                    "additionalProperties": False
+                },
+                "strict": True
+            }
+        }
 
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "user", "content": prompt}
-        ],
-        max_tokens=limit * 80,
-        temperature=1.5
-    )
+    def get_recommendations(self, phrases, tags):
 
-    recommendations = response.choices[0].message.content.strip()
+        prompt = f"I'm in the mood for a movie that is {phrases[0]}, {phrases[1]}, evokes {phrases[2]} and fits as many of these tags, as possible: " + ", ".join(tags) + f". Return me {self.limit} movies."  # noqa: E501
 
-    return recommendations
+        response = self.client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=self.limit * 80,
+            temperature=1.5,
+            response_format=self.response_format
+        )
+
+        try:
+            # Parse and validate the response content
+            recommendations = Recommendations.parse_raw(response.choices[0].message.content)  # noqa: E501
+            return recommendations
+        except ValidationError as e:
+            # Handle validation errors
+            print(e.json())

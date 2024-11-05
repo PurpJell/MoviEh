@@ -27,3 +27,24 @@ class Questionnaire:
         with open(questions, 'r') as file:
             questionnaire = json.load(file)
             self.questions = [Question(**question) for question in questionnaire]  # noqa: E501
+
+
+@dataclass
+class Results:
+    phrases: List[str]
+    tags: List[str]
+
+
+@dataclass
+class Movie:
+    title: str
+    genres: List[str]
+    year: int
+    rating: float
+    duration: int
+    description: str
+
+
+@dataclass
+class Recommendations:
+    movies: List[Movie]
