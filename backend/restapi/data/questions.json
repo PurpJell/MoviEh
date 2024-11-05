@@ -5,13 +5,13 @@
             "type": "radio",
             "resultType": "phrase",
             "options": [
-                {"text": "Happy and joyful"},
-                {"text": "Calm and relaxed"},
-                {"text": "Anxious and stressed"},
-                {"text": "Sad and melancholic"},
-                {"text": "Excited and energetic"},
-                {"text": "Bored or indifferent"},
-                {"text": "Mad or angry"}
+                {"text": "Happy and joyful", "result": ["Happy and joyful"]},
+                {"text": "Calm and relaxed", "result": ["Calm and relaxed"]},
+                {"text": "Anxious and stressed", "result": ["Anxious and stressed"]},
+                {"text": "Sad and melancholic", "result": ["Sad and melancholic"]},
+                {"text": "Excited and energetic", "result": ["Excited and energetic"]},
+                {"text": "Bored or indifferent", "result": ["Bored or indifferent"]},
+                {"text": "Mad or angry", "result": ["Mad or angry"]}
             ]
         },
         {
@@ -19,8 +19,8 @@
             "type": "radio",
             "resultType": "phrase",
             "options": [
-                {"text": "Matches my mood"},
-                {"text": "Contrasts with my mood"}
+                {"text": "Matches my mood", "result": ["Matches my mood"]},
+                {"text": "Contrasts with my mood", "result": ["Contrasts with my mood"]}
             ]
         },
         {
@@ -28,12 +28,25 @@
             "type": "radio",
             "resultType": "phrase",
             "options": [
-                {"text": "Happiness and laughter"},
-                {"text": "Thrills and excitement"},
-                {"text": "Comfort and warmth"},
-                {"text": "Inspiration and motivation"},
-                {"text": "Suspense and mystery"},
-                {"text": "Nostalgia and reflection"}
+                {"text": "Happiness and laughter", "result": ["Happiness and laughter"]},
+                {"text": "Thrills and excitement", "result": ["Thrills and excitement"]},
+                {"text": "Comfort and warmth", "result": ["Comfort and warmth"]},
+                {"text": "Inspiration and motivation", "result": ["Inspiration and motivation"]},
+                {"text": "Suspense and mystery", "result": ["Suspense and mystery"]},
+                {"text": "Nostalgia and reflection", "result": ["Nostalgia and reflection"]}
+            ]
+        },
+        {
+            "question": "What type of feeling do you want the movie to evoke?",
+            "type": "radio",
+            "resultType": "phrase",
+            "options": [
+                {"text": "Happiness and laughter", "result": ["Happiness and laughter"]},
+                {"text": "Thrills and excitement", "result": ["Thrills and excitement"]},
+                {"text": "Comfort and warmth", "result": ["Comfort and warmth"]},
+                {"text": "Inspiration and motivation", "result": ["Inspiration and motivation"]},
+                {"text": "Suspense and mystery", "result": ["Suspense and mystery"]},
+                {"text": "Nostalgia and reflection", "result": ["Nostalgia and reflection"]}
             ]
         },
         {
@@ -41,12 +54,12 @@
             "type": "radio",
             "resultType": "tags",
             "options": [
-                {"text": "Lighthearted and fun"},
-                {"text": "Deep and thought-provoking"},
-                {"text": "Romantic and emotional"},
-                {"text": "Action-packed and fast-paced"},
-                {"text": "Dark and intense"},
-                {"text": "Calm and slow-paced"}
+                {"text": "Lighthearted and fun", "result":["Comedy", "Romance", "Animation"]},
+                {"text": "Deep and thought-provoking", "result":["Drama", "Indie"]},
+                {"text": "Romantic and emotional", "result":["Drama", "Romance"]},
+                {"text": "Action-packed and fast-paced", "result":["Action", "Superhero"]},
+                {"text": "Dark and intense", "result":["Horror", "Pshychological"]},
+                {"text": "Calm and slow-paced", "result":["Art Film", "Documentary"]}
                 ]
         },
         {
@@ -54,12 +67,12 @@
             "type": "radio",
             "resultType": "tags",
             "options": [
-                {"text": "Lifts mood and makes you laugh"},
-                {"text": "Challenges you to think and question"},
-                {"text": "Makes you feel cozy and at ease"},
-                {"text": "Gives you a rush of adrenaline"},
-                {"text": "Unfolds in a mysterious and unpredictable way"},
-                {"text": "Evokes a sense of wonder and awe"}
+                {"text": "Lifts mood and makes you laugh", "result":["Comedy", "Feel-good"]},
+                {"text": "Challenges you to think and question", "result":["Pshychological", "Mystery"]},
+                {"text": "Makes you feel cozy and at ease", "result":["Romance", "Slice of Life"]},
+                {"text": "Gives you a rush of adrenaline", "result":["Action", "Adventure"]},
+                {"text": "Unfolds in a mysterious and unpredictable way", "result":["Mystery", "Thriller"]},
+                {"text": "Evokes a sense of wonder and awe", "result":["Fastasy", "Sci-Fi"]}
             ]
         },
         {
@@ -67,12 +80,12 @@
             "type": "checkbox",
             "resultType": "tags",
             "options": [
-                {"text": "Joy"},
-                {"text": "Adventure"},
-                {"text": "Peace"},
-                {"text": "Romance"},
-                {"text": "Fear"},
-                {"text": "Curiosity"}
+                {"text": "Joy", "result":["Comedy", "Musical"]},
+                {"text": "Adventure", "result":["Adventure", "Fantasy"]},
+                {"text": "Peace", "result":["Drama", "Slice of Life"]},
+                {"text": "Romance", "result":["Romance", "Rom-Com", "Drama"]},
+                {"text": "Fear", "result":["Horror", "Suspense"]},
+                {"text": "Curiosity", "result":["Mystery", "Sci-Fi"]}
             ]
         },
         {
@@ -80,12 +93,12 @@
             "type": "checkbox",
             "resultType": "tags",
             "options": [
-                {"text": "Focuses on character development and emotions"},
-                {"text": "Explores a captivating plot or mystery"},
-                {"text": "Takes you on an imaginative journey"},
-                {"text": "Is realistic and relatable"},
-                {"text": "Has unexpected twists and surprises"},
-                {"text": "Delivers action and excitement from start to finish"}
+                {"text": "Focuses on character development and emotions", "result":["Drama", "Indie"]},
+                {"text": "Explores a captivating plot or mystery", "result":["Thriller", "Mystery"]},
+                {"text": "Takes you on an imaginative journey", "result":["Fantasy", "Animation"]},
+                {"text": "Is realistic and relatable", "result":["Biographical", "Slice of Life"]},
+                {"text": "Has unexpected twists and surprises", "result":["Pshychological", "Suspense"]},
+                {"text": "Delivers action and excitement from start to finish", "result":["Action", "Adventure"]}
             ]
         }
     ]

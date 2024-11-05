@@ -13,6 +13,10 @@ class QuestionSerializer(serializers.Serializer):
     options = OptionSerializer(many=True)
 
 
+class QuestionnaireSerializer(serializers.Serializer):
+    questions = QuestionSerializer(many=True)
+
+
 class QuestionnaireResultSerializer(serializers.Serializer):
     phrases = serializers.ListField(child=serializers.CharField(max_length=255))
     tags = serializers.ListField(child=serializers.CharField(max_length=255))

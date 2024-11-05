@@ -3,6 +3,7 @@ from typing import List
 from django.conf import settings
 from dataclasses import dataclass
 from pydantic import BaseModel
+from .serializers import QuestionnaireSerializer
 
 
 @dataclass
@@ -24,10 +25,15 @@ class Questionnaire:
     questions: List[Question]
 
     def __init__(self):
-        questions = settings.BASE_DIR / 'restapi' / 'data' / 'questions.json'
-        with open(questions, 'r') as file:
-            questionnaire = json.load(file)
+        questions_path = settings.BASE_DIR / 'restapi' / 'data' / 'questions.json'
+        with open(questions_path, 'r') as file:
+            data = json.load(file)
+            questionnaire = data['questions']  # Access the 'questions' key
             self.questions = [Question(**question) for question in questionnaire]
+
+    def to_dict(self):
+        serializer = QuestionnaireSerializer(self)
+        return serializer.data
 
 
 @dataclass
