@@ -12,7 +12,9 @@ class RecommendationsAPIView(APIView):
     permissionClasses = [AllowAny]
 
     def __init__(self):
-        if os.getenv("ENV") == "prod":
+        if os.getenv("ENV") == "dev":
+            self.service = MockGptRecommendationService()
+        elif os.getenv("ENV") == "prod":
             self.service = GptRecommendationService()
         else:
             self.service = MockRecommendationService()
