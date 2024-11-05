@@ -48,7 +48,7 @@ class Movie(BaseModel):
     year: int
     rating: float
     duration: int
-    description: str
+    shortDescription: str
 
 
 class Recommendation(BaseModel):
