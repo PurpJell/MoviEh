@@ -78,6 +78,6 @@ class MockRecommendationService:
             }
         ]
 
-    def get_recommendations(self):
+    def get_recommendations(self, phrases, tags):
 
         return self.film_recommendations[:self.limit]

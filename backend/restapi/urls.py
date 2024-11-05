@@ -14,4 +14,4 @@ urlpatterns = [
         recommendations.RecommendationsAPIView.as_view(),
         name='recommendations'
     ),
- ]
+]
