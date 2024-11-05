@@ -7,7 +7,6 @@ from serializers import QuestionnaireResultSerializer
 import os
 
 
-
 class RecommendationsAPIView(APIView):
     permissionClasses = [AllowAny]
 
@@ -32,7 +31,7 @@ class RecommendationsAPIView(APIView):
         phrases = serializer.validated_data['phrases']
         tags = serializer.validated_data['tags']
 
-        film_recommendations = self.service.get_recommendations(phrases, tags)  # noqa: E501
+        film_recommendations = self.service.get_recommendations(phrases, tags)
 
         # Format the response
         response_data = {
