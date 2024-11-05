@@ -19,7 +19,7 @@ class GptRecommendationService:
         prompt = prompt = f"I'm in the mood for a movie that is {phrases[0]}, {phrases[1]}, evokes {phrases[2]} and fits as many of these tags, as possible: {', '.join(tags)}. Return me {self.limit} movies."  # noqa: E501
 
         response = self.client.beta.chat.completions.parse(
-            model="gpt-4o",
+            model="gpt-4o-mini",
             messages=[
                 {"role": "user", "content": prompt}
             ],
