@@ -4,8 +4,8 @@ export interface IOption {
 }
 export interface IQuestion {
   text: string;
-  type: "radio" | "checkbox";
-  resultType: "tags" | "phrase";
+  type: 'radio' | 'checkbox';
+  resultType: 'tags' | 'phrase';
   options: IOption[];
 }
 

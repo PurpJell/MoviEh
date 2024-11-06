@@ -34,7 +34,8 @@ const Recommendations: React.FC<IRecommendationsProps> = ({
                 <br />
                 <Text strong>Duration:</Text> <Text>{film.duration} min.</Text>
                 <br />
-                <Text strong>Description:</Text> <Text>{film.shortDescription}</Text>
+                <Text strong>Description:</Text>{' '}
+                <Text>{film.shortDescription}</Text>
                 <br />
               </Card>
             </Col>

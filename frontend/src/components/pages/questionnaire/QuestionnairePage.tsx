@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { IFilm, IQuestion } from '../../../types/questionnaireTypes';
+import React, {useState, useEffect} from 'react';
+import {IFilm, IQuestion} from '../../../types/questionnaireTypes';
 import api from '../../../api/api';
 import Loading from '../../common/Loading';
 import Recommendations from '../../common/Recomendations';
 import Questionnaire from './Questionnaire';
-import { message } from 'antd';
+import {message} from 'antd';
 import TagSelection from './TagSelection';
 
 const QuestionnairePage: React.FC = () => {
@@ -30,14 +30,17 @@ const QuestionnairePage: React.FC = () => {
     fetchQuestionnaire();
   }, []);
 
-  const handleQuestionnaireSubmit = (results: { phrases: string[]; tags: string[] }) => {
+  const handleQuestionnaireSubmit = (results: {
+    phrases: string[];
+    tags: string[];
+  }) => {
     const uniqueTags = Array.from(new Set(results.tags));
     setTags(uniqueTags);
 
     const uniquePhrases = Array.from(new Set(results.phrases));
-    console.log("uniquePhrases", uniquePhrases);
+    console.log('uniquePhrases', uniquePhrases);
     setPhrases(uniquePhrases);
-  }
+  };
 
   const handleTagSelectionSubmit = async (selectedTags: string[]) => {
     const payload = {
@@ -49,18 +52,27 @@ const QuestionnairePage: React.FC = () => {
     setRecommendations(response.data.recommendations);
 
     if (response.data.recommendations.length === 0) {
-      message.warning('No recommendations found for selected tags and phrases.');
+      message.warning(
+        'No recommendations found for selected tags and phrases.',
+      );
     }
-  }
+  };
 
   if (loading) {
     return <Loading />;
   } else if (recommendations) {
     return <Recommendations recommendations={recommendations} />;
   } else if (phrases && tags) {
-    return <TagSelection initialTags={tags} onSubmit={handleTagSelectionSubmit} />;
+    return (
+      <TagSelection initialTags={tags} onSubmit={handleTagSelectionSubmit} />
+    );
   } else if (questions) {
-    return <Questionnaire questions={questions} onSubmit={handleQuestionnaireSubmit} />;
+    return (
+      <Questionnaire
+        questions={questions}
+        onSubmit={handleQuestionnaireSubmit}
+      />
+    );
   }
 };
 

@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Radio, Checkbox, Typography, Flex, Space } from 'antd';
-import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
-import { IQuestion } from '../../../types/questionnaireTypes';
-import { RadioChangeEvent } from 'antd/es/radio';
+import React, {useState, useEffect} from 'react';
+import {Button, Radio, Checkbox, Typography, Flex, Space} from 'antd';
+import {ArrowLeftOutlined, ArrowRightOutlined} from '@ant-design/icons';
+import {IQuestion} from '../../../types/questionnaireTypes';
+import {RadioChangeEvent} from 'antd/es/radio';
 
-const { Title } = Typography;
+const {Title} = Typography;
 
 interface QuestionPanelProps {
   question: IQuestion;
@@ -42,33 +42,40 @@ const QuestionPanel: React.FC<QuestionPanelProps> = ({
   };
 
   return (
-    <Flex vertical style={{padding: '24px', minWidth: '30vw', height: '100%', margin: 'auto'}}>
+    <Flex
+      vertical
+      style={{
+        padding: '24px',
+        minWidth: '30vw',
+        height: '100%',
+        margin: 'auto',
+      }}>
       <div style={{textAlign: 'left', flexGrow: 10}}>
         <Title level={4} style={{margin: '10px 0'}}>
           {question.text}
         </Title>
 
-          {question.type === 'radio' ? (
-            <Radio.Group onChange={handleRadioChange} value={selectedOptions}>
-              <Space direction="vertical">
-                {question.options.map((option) => (
-                  <Radio key={option.text} value={option.result}>
-                    {option.text}
-                  </Radio>
-                ))}
-              </Space>
-            </Radio.Group>
-          ) : (
-            <Checkbox.Group onChange={handleCheckboxChange}>
-              <Space direction="vertical">
-                {question.options.map((option) => (
-                  <Checkbox key={option.text} value={option.result}>
-                    {option.text}
-                  </Checkbox>
-                ))}
-              </Space>
-            </Checkbox.Group>
-          )}
+        {question.type === 'radio' ? (
+          <Radio.Group onChange={handleRadioChange} value={selectedOptions}>
+            <Space direction="vertical">
+              {question.options.map(option => (
+                <Radio key={option.text} value={option.result}>
+                  {option.text}
+                </Radio>
+              ))}
+            </Space>
+          </Radio.Group>
+        ) : (
+          <Checkbox.Group onChange={handleCheckboxChange}>
+            <Space direction="vertical">
+              {question.options.map(option => (
+                <Checkbox key={option.text} value={option.result}>
+                  {option.text}
+                </Checkbox>
+              ))}
+            </Space>
+          </Checkbox.Group>
+        )}
       </div>
 
       <Flex
