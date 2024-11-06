@@ -18,8 +18,8 @@ const Recommendations: React.FC<IRecommendationsProps> = ({
       </Title>
       <Row gutter={[16, 16]}>
         {recommendations.length > 0 ? (
-          recommendations.map(film => (
-            <Col key={film.id} span={8}>
+          recommendations.map((film, index) => (
+            <Col key={index} span={8}>
               <Card
                 title={film.title}
                 bordered={false}
@@ -34,7 +34,7 @@ const Recommendations: React.FC<IRecommendationsProps> = ({
                 <br />
                 <Text strong>Duration:</Text> <Text>{film.duration} min.</Text>
                 <br />
-                <Text strong>Description:</Text> <Text>{film.description}</Text>
+                <Text strong>Description:</Text> <Text>{film.shortDescription}</Text>
                 <br />
               </Card>
             </Col>

@@ -1,102 +1,65 @@
-import React, {useState} from 'react';
-import {Button, Radio, Typography, Flex} from 'antd';
-import {RadioChangeEvent} from 'antd/es/radio';
-import {ArrowLeftOutlined, ArrowRightOutlined} from '@ant-design/icons';
-import {IQuestionnaire, IOption} from '../../../types/questionnaireTypes';
+import React, { useState } from 'react';
+import { Typography, Flex } from 'antd';
+import { IQuestion } from '../../../types/questionnaireTypes';
+import QuestionPanel from './QuestionPanel';
 
-const {Title, Text} = Typography;
+const { Title, Text } = Typography;
 
 interface QuestionnaireProps {
-  questionnaire: IQuestionnaire;
-  onSubmit: (results: (number | null)[]) => void;
+  questions: IQuestion[];
+  onSubmit: (results: { phrases: string[]; tags: string[] }) => void;
 }
 
-const Questionnaire: React.FC<QuestionnaireProps> = ({
-  questionnaire,
-  onSubmit,
-}) => {
+const Questionnaire: React.FC<QuestionnaireProps> = ({ questions, onSubmit }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedOption, setSelectedOption] = useState<IOption | null>(null);
-  const [results, setResults] = useState<(number | null)[]>(
-    new Array(questionnaire.questions.length).fill(null),
-  );
+  const [results, setResults] = useState<string[][]>(new Array(questions.length).fill([]));
 
-  const handleAnswerChange = (e: RadioChangeEvent) => {
-    setSelectedOption(e.target.value);
-  };
-
-  const handleNextQuestion = () => {
-    if (selectedOption) {
-      const newResults = [...results];
-      newResults[currentQuestionIndex] = selectedOption.id;
+  const handleNextQuestion = (selectedOptions: string[]) => {
+    if (currentQuestionIndex < questions.length - 1) {
+      const newResults = results.map(function(arr) {
+        return arr.slice();
+      }); // Deep copy
+      console.log(newResults);
+      newResults[currentQuestionIndex] = selectedOptions;
       setResults(newResults);
-
-      if (currentQuestionIndex < questionnaire.questions.length - 1) {
-        setCurrentQuestionIndex(currentQuestionIndex + 1);
-        setSelectedOption(null);
-      } else {
-        onSubmit(newResults); // Submit results to parent component
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    } else {
+      // Submit results
+      const payload: { phrases: string[]; tags: string[] } = { phrases: [], tags: [] };
+      for (let i = 0; i < questions.length; i++) {
+        if (questions[i].resultType === 'tags') {
+          payload.tags = [...payload.tags, ...results[i]];
+        }else if (questions[i].resultType === 'phrase') {
+          payload.phrases = [...payload.phrases, ...results[i]];
+        }
       }
+      onSubmit(payload);
     }
   };
 
   const handleGoBack = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
-      setSelectedOption(null);
     }
   };
 
   return (
     <Flex
       vertical
-      style={{padding: '24px', width: '50%', height: '100%', margin: 'auto'}}>
-      <Title level={2} style={{textAlign: 'center'}}>
+      style={{ padding: '24px', width: '70%', height: '100%', margin: 'auto' }}>
+      <Title level={2} style={{ textAlign: 'center' }}>
         Film Questionnaire
       </Title>
       <Text>
-        Question {currentQuestionIndex + 1} of {questionnaire.questions.length}
+        Question {currentQuestionIndex + 1} of {questions.length}
       </Text>
-      <div style={{textAlign: 'left', flexGrow: 10}}>
-        <Title level={4} style={{margin: '10px 0'}}>
-          {questionnaire.questions[currentQuestionIndex].question}
-        </Title>
-        <Radio.Group onChange={handleAnswerChange}>
-          {questionnaire.questions[currentQuestionIndex].options.map(option => (
-            <Radio
-              key={option.id}
-              value={option}
-              style={{display: 'block', marginBottom: '8px'}}>
-              {option.text}
-            </Radio>
-          ))}
-        </Radio.Group>
-      </div>
-      <Flex
-        style={{
-          width: '100%',
-          justifyContent: 'space-between',
-          padding: '10px 0',
-          flexWrap: 'wrap',
-          height: '13%',
-        }}>
-        <Button
-          style={{flexGrow: 20, height: '100%'}}
-          onClick={handleGoBack}
-          disabled={currentQuestionIndex === 0}>
-          <ArrowLeftOutlined />
-          Go Back
-        </Button>
-        <div style={{flexGrow: 30}}></div>
-        <Button
-          style={{flexGrow: 50, height: '100%'}}
-          type="primary"
-          onClick={handleNextQuestion}
-          disabled={!selectedOption}>
-          Next
-          <ArrowRightOutlined />
-        </Button>
-      </Flex>
+      <QuestionPanel
+        question={questions[currentQuestionIndex]}
+        prevSelectedOptions={results[currentQuestionIndex]}
+        onBack={handleGoBack}
+        onNext={handleNextQuestion}
+        canGoBack={currentQuestionIndex > 0}
+      />
     </Flex>
   );
 };
