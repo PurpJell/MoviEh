@@ -17,7 +17,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({children}) => {
   } = theme.useToken();
 
   return (
-    <Layout style={{minHeight: '100vh'}}>
+    <Layout style={{height: '100vh'}}>
       <Header
         style={{
           display: 'flex',
@@ -36,6 +36,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({children}) => {
               textAlign: 'center',
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
+              overflowY: 'auto',
             }}>
             <Suspense fallback={<Loading />}>{children ?? <Outlet />}</Suspense>
           </Content>
