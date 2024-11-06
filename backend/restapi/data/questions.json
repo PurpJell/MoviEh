@@ -1,7 +1,7 @@
 {
     "questions": [
         {
-            "question": "How would you describe your current emotional state?",
+            "text": "How would you describe your current emotional state?",
             "type": "radio",
             "resultType": "phrase",
             "options": [
@@ -15,7 +15,7 @@
             ]
         },
         {
-            "question": "Are you in the mood for something that matches your current mood or emotion, or contrasts it?",
+            "text": "Are you in the mood for something that matches your current mood or emotion, or contrasts it?",
             "type": "radio",
             "resultType": "phrase",
             "options": [
@@ -24,7 +24,7 @@
             ]
         },
         {
-            "question": "What type of feeling do you want the movie to evoke?",
+            "text": "What type of feeling do you want the movie to evoke?",
             "type": "radio",
             "resultType": "phrase",
             "options": [
@@ -37,7 +37,7 @@
             ]
         },
         {
-            "question": "You prefer a movie that is: (choose one)",
+            "text": "You prefer a movie that is:",
             "type": "radio",
             "resultType": "tags",
             "options": [
@@ -50,12 +50,12 @@
                 ]
         },
         {
-            "question": "You are looking for a story that: (choose one)",
+            "text": "You are looking for a story that:",
             "type": "radio",
             "resultType": "tags",
             "options": [
                 {"text": "Lifts mood and makes you laugh", "result":["Comedy", "Feel-good"]},
-                {"text": "Challenges you to think and question", "result":["Pshychological", "Mystery"]},
+                {"text": "Challenges you to think and text", "result":["Pshychological", "Mystery"]},
                 {"text": "Makes you feel cozy and at ease", "result":["Romance", "Slice of Life"]},
                 {"text": "Gives you a rush of adrenaline", "result":["Action", "Adventure"]},
                 {"text": "Unfolds in a mysterious and unpredictable way", "result":["Mystery", "Thriller"]},
@@ -63,7 +63,7 @@
             ]
         },
         {
-            "question": "If you could choose one word to descibe what you want from the movie experience, what would it be?",
+            "text": "If you could choose one word to descibe what you want from the movie experience, what would it be?",
             "type": "checkbox",
             "resultType": "tags",
             "options": [
@@ -76,8 +76,8 @@
             ]
         },
         {
-            "question": "You want a movie that: (choose one)",
-            "type": "checkbox",
+            "text": "You want a movie that:",
+            "type": "radio",
             "resultType": "tags",
             "options": [
                 {"text": "Focuses on character development and emotions", "result":["Drama", "Indie"]},
