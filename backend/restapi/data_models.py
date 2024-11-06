@@ -14,7 +14,7 @@ class Option:
 
 @dataclass
 class Question:
-    question: str
+    text: str
     type: str
     resultType: str
     options: List[Option]

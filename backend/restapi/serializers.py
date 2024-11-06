@@ -7,7 +7,7 @@ class OptionSerializer(serializers.Serializer):
 
 
 class QuestionSerializer(serializers.Serializer):
-    question = serializers.CharField(max_length=255)
+    text = serializers.CharField(max_length=255)
     type = serializers.ChoiceField(choices=["radio", "checkbox"])
     resultType = serializers.ChoiceField(choices=["phrase", "tags"])
     options = OptionSerializer(many=True)
