@@ -9,7 +9,7 @@ const Header: React.FC = () => {
         background: 'white',
         padding: '0',
       }}>
-      <span style={{fontSize: '24px', fontWeight: 'bold'}}>MovieEh</span>
+      <span style={{fontSize: '24px', fontWeight: 'bold'}}>MoviEh</span>
     </div>
   );
 };

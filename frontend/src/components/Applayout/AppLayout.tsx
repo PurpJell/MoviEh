@@ -40,7 +40,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({children}) => {
             <Suspense fallback={<Loading />}>{children ?? <Outlet />}</Suspense>
           </Content>
           <Footer style={{textAlign: 'center'}}>
-            MovieEh ©{new Date().getFullYear()}
+            MoviEh ©{new Date().getFullYear()}
           </Footer>
         </Layout>
       </Layout>
