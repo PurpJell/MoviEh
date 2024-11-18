@@ -41,7 +41,7 @@
             "type": "radio",
             "resultType": "tags",
             "options": [
-                {"text": "Lighthearted and fun", "result":["Comedy", "Romance", "Animation"]},
+                {"text": "Light-hearted and fun", "result":["Comedy", "Romance", "Animation"]},
                 {"text": "Deep and thought-provoking", "result":["Drama", "Indie"]},
                 {"text": "Romantic and emotional", "result":["Drama", "Romance"]},
                 {"text": "Action-packed and fast-paced", "result":["Action", "Superhero"]},
@@ -55,15 +55,15 @@
             "resultType": "tags",
             "options": [
                 {"text": "Lifts mood and makes you laugh", "result":["Comedy", "Feel-good"]},
-                {"text": "Challenges you to think and text", "result":["Pshychological", "Mystery"]},
+                {"text": "Challenges you to think and question", "result":["Psychological", "Mystery"]},
                 {"text": "Makes you feel cozy and at ease", "result":["Romance", "Slice of Life"]},
                 {"text": "Gives you a rush of adrenaline", "result":["Action", "Adventure"]},
                 {"text": "Unfolds in a mysterious and unpredictable way", "result":["Mystery", "Thriller"]},
-                {"text": "Evokes a sense of wonder and awe", "result":["Fastasy", "Sci-Fi"]}
+                {"text": "Evokes a sense of wonder and awe", "result":["Fantasy", "Sci-Fi"]}
             ]
         },
         {
-            "text": "If you could choose one word to descibe what you want from the movie experience, what would it be?",
+            "text": "If you could choose one word to describe what you want from the movie experience, what would it be?",
             "type": "checkbox",
             "resultType": "tags",
             "options": [

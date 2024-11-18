@@ -42,6 +42,17 @@ class QuestionnaireResult:
     tags: List[str]
 
 
+@dataclass
+class TagList:
+    tags: List[str]
+
+    def __init__(self):
+        taglist_path = settings.BASE_DIR / 'restapi' / 'data' / 'taglist.json'
+        with open(taglist_path, 'r') as file:
+            data = json.load(file)
+            self.tags = data['tags']
+
+
 class Movie(BaseModel):
     title: str
     genres: List[str]

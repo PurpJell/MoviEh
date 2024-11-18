@@ -1,4 +1,5 @@
-[
+{ "tags":
+    [
     "Comedy", "Indie", "Superhero",
     "Feel-good", "Animation", "Horror",
     "Drama", "Rom-Com", "Art Film",
@@ -9,4 +10,5 @@
     "Action", "Biographical", "Revenge",
     "Adventure", "Family", "Detective",
     "Fantasy", "Sci-Fi", "Western"
-]
+    ]
+}
