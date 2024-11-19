@@ -33,7 +33,9 @@ class RecommendationsAPIView(APIView):
         phrases = serializer.validated_data['phrases']
         tags = serializer.validated_data['tags']
 
-        film_recommendations = self.service.get_recommendations(phrases, tags)
+        prompt = self.service.form_prompt(phrases, tags)
+
+        film_recommendations = self.service.get_recommendations(prompt)
 
         # Format the response
         response_data = {

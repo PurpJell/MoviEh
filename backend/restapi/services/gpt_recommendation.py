@@ -1,5 +1,6 @@
 from openai import OpenAI
 import os
+import json
 from ..data_models import Recommendation
 from pydantic import ValidationError
 
@@ -14,27 +15,40 @@ class GptRecommendationService:
 
         self.response_format = Recommendation
 
-    def get_recommendations(self, phrases, tags):
+    def form_prompt(self, phrases, tags):
 
         prompt = (
             f"Recommend me a movie that is {phrases[0]}, {phrases[1]}, evokes {phrases[2]} "
             f"and fits as many of these tags, as possible: {', '.join(tags)}. "
             f"Return me {self.limit} movies."
         )
+
+        return prompt
+
+    def get_recommendations(self, prompt):
+
         response = self.client.beta.chat.completions.parse(
             model="gpt-4o-mini",
             messages=[
                 {"role": "user", "content": prompt}
             ],
-            # max_tokens=self.limit * 1000,
             temperature=0,
             response_format=self.response_format
         )
 
         try:
             # Parse and validate the response content
-            recommendations = response.choices[0].message
-            return recommendations
-        except ValidationError as e:
-            # Handle validation errors
-            print(e.json())
+            first_response = response.choices[0].message
+
+            content = first_response.content
+
+            response_data = json.loads(content)
+
+            # Extract the movies data
+            movies = response_data.get('movies', [])
+            return movies
+
+        except (ValidationError, json.JSONDecodeError) as e:
+            # Handle validation errors and JSON decode errors
+            print(f"Error parsing recommendations: {e}")
+            return []

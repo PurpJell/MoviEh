@@ -78,6 +78,16 @@ class MockRecommendationService:
             }
         ]
 
-    def get_recommendations(self, phrases, tags):
+    def form_prompt(self, phrases, tags):
+
+        prompt = (
+            f"Recommend me a movie that is {phrases[0]}, {phrases[1]}, evokes {phrases[2]} "
+            f"and fits as many of these tags, as possible: {', '.join(tags)}. "
+            f"Return me {self.limit} movies."
+        )
+
+        return prompt
+
+    def get_recommendations(self, prompt):
 
         return self.film_recommendations[:self.limit]
