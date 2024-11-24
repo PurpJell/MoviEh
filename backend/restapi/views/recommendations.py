@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from restapi.services import GptRecommendationService, MockRecommendationService
-from ..serializers import QuestionnaireResultSerializer
+from ..serializers import CombinedInputSerializer
 import os
 
 
@@ -11,35 +11,48 @@ class RecommendationsAPIView(APIView):
     permission_classes = [AllowAny]
 
     def __init__(self):
+        movie_recommendation_limit = 10
+
         if os.getenv("ENV") == "dev":
-            self.service = MockRecommendationService()
+            self.service = MockRecommendationService(movie_recommendation_limit)
         elif os.getenv("ENV") == "prod":
-            self.service = GptRecommendationService()
+            self.service = GptRecommendationService(movie_recommendation_limit)
         else:
-            self.service = MockRecommendationService()
+            self.service = MockRecommendationService(movie_recommendation_limit)
 
     def post(self, request):
-        # Extract results from the request data
-        results = request.data
 
-        # Use the serializer to validate the results
-        serializer = QuestionnaireResultSerializer(data=results)
-        if not serializer.is_valid():
-            return Response(
-                {"error": serializer.errors},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        phrases = serializer.validated_data['phrases']
-        tags = serializer.validated_data['tags']
-
-        prompt = self.service.form_prompt(phrases, tags)
+        # Use the combined serializer to validate the results
+        serializer = CombinedInputSerializer(data=request.data)
+        if serializer.is_valid():
+            validated_data = serializer.validated_data
+            if 'phrases' in validated_data and 'tags' in validated_data:
+                prompt = self.get_questionnaire_prompt(
+                    validated_data["phrases"],
+                    validated_data["tags"]
+                )
+            elif 'user_input' in validated_data:
+                prompt = self.get_user_input_prompt(
+                    validated_data["user_input"]
+                )
+            else:
+                return Response(
+                    {"error": "Invalid input."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
 
         film_recommendations = self.service.get_recommendations(prompt)
 
-        # Format the response
-        response_data = {
-            "recommendations": film_recommendations,
-        }
+        return Response({"recommendations": film_recommendations}, status=status.HTTP_200_OK)
 
-        return Response(response_data, status=status.HTTP_200_OK)
+    def get_questionnaire_prompt(self, phrases, tags):
+
+        prompt = self.service.form_questionnaire_prompt(phrases, tags)
+
+        return prompt
+
+    def get_user_input_prompt(self, user_input):
+
+        prompt = self.service.form_user_input_prompt(user_input)
+
+        return prompt
