@@ -1,8 +1,10 @@
 import React from 'react';
 import PathConstants from './PathConstants';
-import { Navigate } from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 
-const MoodMatcher = React.lazy(() => import('../components/pages/mood-matcher/MookMatcherPage'));
+const MoodMatcher = React.lazy(
+  () => import('../components/pages/mood-matcher/MookMatcherPage'),
+);
 const Questionnaire = React.lazy(
   () => import('../components/pages/questionnaire/QuestionnairePage'),
 );
