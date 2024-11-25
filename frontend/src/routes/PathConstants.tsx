@@ -1,6 +1,7 @@
 const PathConstants = {
-  HOME: '/',
+  HOME: '/mood-matcher',
   QUESTIONNAIRE: '/questionnaire',
+  MOOD_MATCHER: '/mood-matcher',
 };
 
 export default PathConstants;

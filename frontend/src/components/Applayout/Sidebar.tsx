@@ -3,16 +3,16 @@ import {useNavigate} from 'react-router-dom';
 import PathConstants from '../../routes/PathConstants';
 import {Layout, Menu} from 'antd';
 import {MenuInfo} from 'rc-menu/lib/interface';
-import {HomeOutlined, QuestionOutlined} from '@ant-design/icons';
+import {FormOutlined, QuestionOutlined} from '@ant-design/icons';
 
 const {Sider} = Layout;
 
 const items = [
   {
     key: '1',
-    icon: <HomeOutlined />,
-    label: 'Home',
-    path: PathConstants.HOME,
+    icon: <FormOutlined />,
+    label: 'Mood Matcher',
+    path: PathConstants.MOOD_MATCHER,
   },
   {
     key: '2',
