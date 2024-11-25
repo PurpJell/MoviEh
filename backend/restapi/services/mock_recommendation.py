@@ -1,8 +1,8 @@
 class MockRecommendationService:
 
-    def __init__(self):
+    def __init__(self, limit=10):
 
-        self.limit = 10  # number of movies to return
+        self.limit = limit  # number of movies to return
 
         self.film_recommendations = [
             {
@@ -78,13 +78,15 @@ class MockRecommendationService:
             }
         ]
 
-    def form_prompt(self, phrases, tags):
+    def form_questionnaire_prompt(self, phrases, tags):
 
-        prompt = (
-            f"Recommend me a movie that is {phrases[0]}, {phrases[1]}, evokes {phrases[2]} "
-            f"and fits as many of these tags, as possible: {', '.join(tags)}. "
-            f"Return me {self.limit} movies."
-        )
+        prompt = "Fake prompt"
+
+        return prompt
+
+    def form_user_input_prompt(self, user_input):
+
+        prompt = "Fake prompt"
 
         return prompt
 
