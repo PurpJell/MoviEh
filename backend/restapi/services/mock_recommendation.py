@@ -1,3 +1,5 @@
+import time
+
 class MockRecommendationService:
 
     def __init__(self, limit=10):
@@ -81,12 +83,14 @@ class MockRecommendationService:
     def form_questionnaire_prompt(self, phrases, tags):
 
         prompt = "Fake prompt"
+        time.sleep(7)
 
         return prompt
 
     def form_user_input_prompt(self, user_input):
 
         prompt = "Fake prompt"
+        time.sleep(7)
 
         return prompt
 
