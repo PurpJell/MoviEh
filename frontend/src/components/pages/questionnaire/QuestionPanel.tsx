@@ -46,7 +46,7 @@ const QuestionPanel: React.FC<QuestionPanelProps> = ({
       vertical
       style={{
         padding: '24px',
-        minWidth: '30vw',
+        width: '40vw',
         height: '100%',
         margin: 'auto',
       }}>
