@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {IFilm, IQuestion} from '../../../types/questionnaireTypes';
+import {IFilm, IQuestion} from '../../../types';
 import api from '../../../api/api';
 import Loading from '../../common/Loading';
 import Recommendations from '../../common/Recomendations';
@@ -48,9 +48,7 @@ const QuestionnairePage: React.FC = () => {
       phrases: phrases,
     };
 
-    setLoading(true);
     const response = await api.post('recommendations/', payload);
-    setLoading(false);
     setRecommendations(response.data.recommendations);
 
     if (response.data.recommendations.length === 0) {

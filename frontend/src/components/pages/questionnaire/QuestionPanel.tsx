@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Button, Radio, Checkbox, Typography, Flex, Space} from 'antd';
 import {ArrowLeftOutlined, ArrowRightOutlined} from '@ant-design/icons';
-import {IQuestion} from '../../../types/questionnaireTypes';
+import {IQuestion} from '../../../types';
 import {RadioChangeEvent} from 'antd/es/radio';
 
 const {Title} = Typography;
