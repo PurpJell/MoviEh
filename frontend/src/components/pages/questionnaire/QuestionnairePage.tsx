@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {IFilm, IQuestion} from '../../../types/questionnaireTypes';
+import {IFilm, IQuestion} from '../../../types';
 import api from '../../../api/api';
 import Loading from '../../common/Loading';
 import Recommendations from '../../common/Recomendations';

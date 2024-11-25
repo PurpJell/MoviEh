@@ -1,6 +1,6 @@
 import React from 'react';
 import {Typography, Card, Col, Row} from 'antd';
-import {IFilm} from '../../types/questionnaireTypes';
+import {IFilm} from '../../types';
 
 const {Title, Text} = Typography;
 

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Typography, Flex} from 'antd';
-import {IQuestion} from '../../../types/questionnaireTypes';
+import {IQuestion} from '../../../types';
 import QuestionPanel from './QuestionPanel';
 
 const {Title, Text} = Typography;
