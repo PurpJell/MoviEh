@@ -11,12 +11,12 @@ const MoodMatcherPage: React.FC = () => {
   const [recommendations, setRecommendations] = useState<IFilm[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleMoodSubmit = async (values: {mood: string}) => {
+  const handleMoodSubmit = async (values: {description: string}) => {
     setLoading(true);
 
     try {
       const response = await api.post('recommendations/', {
-        user_input: values.mood,
+        user_input: values.description,
       });
 
       if (response.data.recommendations?.length > 0) {
@@ -42,7 +42,7 @@ const MoodMatcherPage: React.FC = () => {
   return (
     <div style={{padding: '20px'}}>
       <Title level={2} style={{marginBottom: '20px'}}>
-        Enter Your Mood
+        Describe Your Mood Or What You Feel Like Watching
       </Title>
       <Form
         name="moodForm"
@@ -50,10 +50,22 @@ const MoodMatcherPage: React.FC = () => {
         layout="vertical"
         style={{maxWidth: '400px', margin: '0 auto'}}>
         <Form.Item
-          label="Mood"
-          name="mood"
-          rules={[{required: true, message: 'Please enter your mood!'}]}>
-          <Input placeholder="I'm feeling..." />
+          label="Description"
+          name="description"
+          rules={[
+            {required: true, message: 'Please describe your mood.'},
+            {
+              validator: (_, value) => {
+                if (!value || value.trim().split(/\s+/).length >= 2) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(
+                  new Error('Description must contain at least two words.'),
+                );
+              },
+            },
+          ]}>
+          <Input placeholder="I feel like..." />
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" block loading={loading}>
