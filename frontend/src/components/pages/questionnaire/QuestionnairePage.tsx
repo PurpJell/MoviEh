@@ -48,7 +48,9 @@ const QuestionnairePage: React.FC = () => {
       phrases: phrases,
     };
 
+    setLoading(true);
     const response = await api.post('recommendations/', payload);
+    setLoading(false);
     setRecommendations(response.data.recommendations);
 
     if (response.data.recommendations.length === 0) {
