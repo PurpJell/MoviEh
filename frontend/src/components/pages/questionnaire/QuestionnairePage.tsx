@@ -44,14 +44,14 @@ const QuestionnairePage: React.FC = () => {
   };
 
   const handleTagSelectionSubmit = async (selectedTags: string[]) => {
-    try{
+    try {
       setLoading(true);
       const response = await api.post('recommendations/', {
         tags: selectedTags,
         phrases: phrases,
       });
       setRecommendations(response.data.recommendations);
-    } catch(error){
+    } catch (error) {
       message.error('Failed to fetch recommendations. Please try again later.');
       console.error('Error fetching recommendations:', error);
     } finally {
@@ -69,7 +69,7 @@ const QuestionnairePage: React.FC = () => {
         initialTags={tags}
         allTags={allTags}
         onSubmit={handleTagSelectionSubmit}
-      /> 
+      />
     );
   } else if (questions) {
     return (

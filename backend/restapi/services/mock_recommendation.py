@@ -1,9 +1,8 @@
 import time
 
+
 class MockRecommendationService:
-
     def __init__(self, limit=10):
-
         self.limit = limit  # number of movies to return
 
         self.film_recommendations = [
@@ -81,19 +80,18 @@ class MockRecommendationService:
         ]
 
     def form_questionnaire_prompt(self, phrases, tags):
-
         prompt = "Fake prompt"
-        time.sleep(7)
+
+        time.sleep(7)  # simulate long processing time
 
         return prompt
 
     def form_user_input_prompt(self, user_input):
-
         prompt = "Fake prompt"
-        time.sleep(7)
+
+        time.sleep(7)  # simulate long processing time
 
         return prompt
 
     def get_recommendations(self, prompt):
-
         return self.film_recommendations[:self.limit]

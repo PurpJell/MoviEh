@@ -57,7 +57,9 @@ const QuestionPanel: React.FC<QuestionPanelProps> = ({
         </Title>
 
         {question.type === 'radio' ? (
-          <Radio.Group onChange={handleRadioChange} value={selectedOptions[0] || undefined}>
+          <Radio.Group
+            onChange={handleRadioChange}
+            value={selectedOptions[0] || undefined}>
             <Space direction="vertical">
               {question.options.map(option => (
                 <Radio key={option.text} value={option.result}>
@@ -67,7 +69,9 @@ const QuestionPanel: React.FC<QuestionPanelProps> = ({
             </Space>
           </Radio.Group>
         ) : (
-          <Checkbox.Group onChange={handleCheckboxChange} value={selectedOptions || undefined}>
+          <Checkbox.Group
+            onChange={handleCheckboxChange}
+            value={selectedOptions || undefined}>
             <Space direction="vertical">
               {question.options.map(option => (
                 <Checkbox key={option.text} value={option.result}>

@@ -9,7 +9,11 @@ interface TagSelectionProps {
   onSubmit: (selectedTags: string[]) => void;
 }
 
-const TagSelection: React.FC<TagSelectionProps> = ({initialTags, allTags, onSubmit}) => {
+const TagSelection: React.FC<TagSelectionProps> = ({
+  initialTags,
+  allTags,
+  onSubmit,
+}) => {
   const [selectedTags, setSelectedTags] = useState<string[]>(initialTags);
   const [availableTags, setAvailableTags] = useState<string[]>(
     allTags.filter(tag => !initialTags.includes(tag)),
