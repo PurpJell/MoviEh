@@ -44,20 +44,18 @@ const QuestionnairePage: React.FC = () => {
   };
 
   const handleTagSelectionSubmit = async (selectedTags: string[]) => {
-    const payload = {
-      tags: selectedTags,
-      phrases: phrases,
-    };
-
-    setLoading(true);
-    const response = await api.post('recommendations/', payload);
-    setRecommendations(response.data.recommendations);
-    setLoading(false);
-
-    if (response.data.recommendations.length === 0) {
-      message.warning(
-        'No recommendations found for selected tags and phrases.',
-      );
+    try{
+      setLoading(true);
+      const response = await api.post('recommendations/', {
+        tags: selectedTags,
+        phrases: phrases,
+      });
+      setRecommendations(response.data.recommendations);
+    } catch(error){
+      message.error('Failed to fetch recommendations. Please try again later.');
+      console.error('Error fetching recommendations:', error);
+    } finally {
+      setLoading(false);
     }
   };
 

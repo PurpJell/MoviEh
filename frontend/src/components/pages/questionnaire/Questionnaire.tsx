@@ -12,32 +12,30 @@ interface QuestionnaireProps {
 
 const Questionnaire: React.FC<QuestionnaireProps> = ({questions, onSubmit}) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [results, setResults] = useState<string[][]>(
-    new Array(questions.length).fill([]),
+  const [results, setResults] = useState<string[][][]>(
+    new Array(questions.length).fill([...[]]),
   );
 
-  const handleNextQuestion = (selectedOptions: string[]) => {
+  const handleNextQuestion = (selectedOptions: string[][]) => {
+    const updatedResults = [...results];
+    updatedResults[currentQuestionIndex] = selectedOptions;
+    setResults(updatedResults);
+
     if (currentQuestionIndex < questions.length - 1) {
-      const newResults = results.map(function (arr) {
-        return arr.slice();
-      }); // Deep copy
-      console.log(newResults);
-      newResults[currentQuestionIndex] = selectedOptions;
-      setResults(newResults);
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      // Submit results
       const payload: {phrases: string[]; tags: string[]} = {
         phrases: [],
         tags: [],
       };
       for (let i = 0; i < questions.length; i++) {
         if (questions[i].resultType === 'tags') {
-          payload.tags = [...payload.tags, ...results[i]];
+          payload.tags = [...payload.tags, ...updatedResults[i].flat()];
         } else if (questions[i].resultType === 'phrase') {
-          payload.phrases = [...payload.phrases, ...results[i]];
+          payload.phrases = [...payload.phrases, ...updatedResults[i].flat()];
         }
       }
+      console.log('payload:', payload);
       onSubmit(payload);
     }
   };
