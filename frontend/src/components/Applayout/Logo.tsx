@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from '../../assets/logo.svg';
 
 const Header: React.FC = () => {
   return (
@@ -9,6 +10,7 @@ const Header: React.FC = () => {
         background: 'white',
         padding: '0',
       }}>
+      <img src={logo} alt="logo" style={{height: '100%'}} />
       <span style={{fontSize: '24px', fontWeight: 'bold'}}>MoviEh</span>
     </div>
   );
