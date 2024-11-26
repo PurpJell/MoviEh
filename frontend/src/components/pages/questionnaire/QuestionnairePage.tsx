@@ -11,6 +11,7 @@ const QuestionnairePage: React.FC = () => {
   const [questions, setQuestions] = useState<IQuestion[] | null>(null);
   const [phrases, setPhrases] = useState<string[] | null>(null);
   const [tags, setTags] = useState<string[] | null>(null);
+  const [allTags, setAllTags] = useState<string[] | null>(null);
   const [recommendations, setRecommendations] = useState<IFilm[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -19,6 +20,7 @@ const QuestionnairePage: React.FC = () => {
       try {
         const response = await api.get('questionnaire/');
         setQuestions(response.data.questions);
+        setAllTags(response.data.tags);
       } catch (error) {
         message.error('Failed to fetch questionnaire. Please try again later.');
         console.error('Error fetching questionnaire:', error);
@@ -38,23 +40,22 @@ const QuestionnairePage: React.FC = () => {
     setTags(uniqueTags);
 
     const uniquePhrases = Array.from(new Set(results.phrases));
-    console.log('uniquePhrases', uniquePhrases);
     setPhrases(uniquePhrases);
   };
 
   const handleTagSelectionSubmit = async (selectedTags: string[]) => {
-    const payload = {
-      tags: selectedTags,
-      phrases: phrases,
-    };
-
-    const response = await api.post('recommendations/', payload);
-    setRecommendations(response.data.recommendations);
-
-    if (response.data.recommendations.length === 0) {
-      message.warning(
-        'No recommendations found for selected tags and phrases.',
-      );
+    try {
+      setLoading(true);
+      const response = await api.post('recommendations/', {
+        tags: selectedTags,
+        phrases: phrases,
+      });
+      setRecommendations(response.data.recommendations);
+    } catch (error) {
+      message.error('Failed to fetch recommendations. Please try again later.');
+      console.error('Error fetching recommendations:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -62,9 +63,13 @@ const QuestionnairePage: React.FC = () => {
     return <Loading />;
   } else if (recommendations) {
     return <Recommendations recommendations={recommendations} />;
-  } else if (phrases && tags) {
+  } else if (phrases && tags && allTags) {
     return (
-      <TagSelection initialTags={tags} onSubmit={handleTagSelectionSubmit} />
+      <TagSelection
+        initialTags={tags}
+        allTags={allTags}
+        onSubmit={handleTagSelectionSubmit}
+      />
     );
   } else if (questions) {
     return (

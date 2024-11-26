@@ -1,16 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import {Button, Radio, Checkbox, Typography, Flex, Space} from 'antd';
 import {ArrowLeftOutlined, ArrowRightOutlined} from '@ant-design/icons';
-import {IQuestion} from '../../../types';
+import {IOption, IQuestion} from '../../../types';
 import {RadioChangeEvent} from 'antd/es/radio';
 
 const {Title} = Typography;
 
 interface QuestionPanelProps {
   question: IQuestion;
-  prevSelectedOptions: string[];
+  prevSelectedOptions: string[][];
   onBack: () => void;
-  onNext: (selectedOptions: string[]) => void;
+  onNext: (selectedOptions: string[][]) => void;
   canGoBack: boolean;
 }
 
@@ -21,20 +21,21 @@ const QuestionPanel: React.FC<QuestionPanelProps> = ({
   onNext,
   canGoBack,
 }) => {
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  // [string[]] for radio, string[][] for checkbox
+  const [selectedOptions, setSelectedOptions] = useState<string[][]>([[]]);
 
   useEffect(() => {
     setSelectedOptions(prevSelectedOptions);
+    console.log('prevSelectedOptions', prevSelectedOptions);
   }, [question]);
 
   const handleRadioChange = (e: RadioChangeEvent) => {
-    const result = e.target.value;
-    setSelectedOptions(result);
+    const val = e.target.value as IOption['result'];
+    setSelectedOptions([val]);
   };
 
-  const handleCheckboxChange = (checkedValues: string[][]) => {
-    const flat = checkedValues.flat();
-    setSelectedOptions(flat);
+  const handleCheckboxChange = (checkedValues: IOption['result'][]) => {
+    setSelectedOptions(checkedValues);
   };
 
   const handleNextClick = () => {
@@ -46,7 +47,7 @@ const QuestionPanel: React.FC<QuestionPanelProps> = ({
       vertical
       style={{
         padding: '24px',
-        minWidth: '30vw',
+        width: '40vw',
         height: '100%',
         margin: 'auto',
       }}>
@@ -56,7 +57,9 @@ const QuestionPanel: React.FC<QuestionPanelProps> = ({
         </Title>
 
         {question.type === 'radio' ? (
-          <Radio.Group onChange={handleRadioChange} value={selectedOptions}>
+          <Radio.Group
+            onChange={handleRadioChange}
+            value={selectedOptions[0] || undefined}>
             <Space direction="vertical">
               {question.options.map(option => (
                 <Radio key={option.text} value={option.result}>
@@ -66,7 +69,9 @@ const QuestionPanel: React.FC<QuestionPanelProps> = ({
             </Space>
           </Radio.Group>
         ) : (
-          <Checkbox.Group onChange={handleCheckboxChange}>
+          <Checkbox.Group
+            onChange={handleCheckboxChange}
+            value={selectedOptions || undefined}>
             <Space direction="vertical">
               {question.options.map(option => (
                 <Checkbox key={option.text} value={option.result}>
