@@ -3,7 +3,6 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from django.http import JsonResponse
 from ..serializers import UserProfileSerializer
-from django.contrib.auth.models import User
 from ..data_models import UserProfile
 
 
@@ -14,7 +13,7 @@ class ProfileAPIView(APIView):
 
         user = request.user
 
-        user_profile = UserProfile.objects.get(username=user.username)
+        user_profile = UserProfile.objects.get(user=user)
 
         if user_profile is None:
             return JsonResponse(

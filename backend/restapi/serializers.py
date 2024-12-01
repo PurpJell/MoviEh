@@ -71,16 +71,25 @@ class UserProfileSerializer(serializers.ModelSerializer):
         return user_profile
 
     def update(self, instance, validated_data):
-        user_data = validated_data.pop('user')  # Remove the user data from the validated data
-        user = instance.user
+        if 'user' in validated_data:
 
-        instance.comedy = validated_data.get('comedy', instance.comedy)
+            user_data = validated_data.pop('user')  # Remove the user data from the validated data
+            user = instance.user
+
+            if 'username' in user_data:
+                user.username = user_data['username']
+            if 'password' in user_data:
+                user.set_password(user_data['password'])
+            user.save()
+
+        if 'comedy' in validated_data:
+            instance.comedy = validated_data.get('comedy', instance.comedy)
+        
         instance.save()
 
-        if 'username' in user_data:
-            user.username = user_data['username']
-        if 'password' in user_data:
-            user.set_password(user_data['password'])
-        user.save()
-
         return instance
+    
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField(write_only=True)

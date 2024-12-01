@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from django.http import JsonResponse
-from ..serializers import UserSerializer
+from ..serializers import LoginSerializer
 from django.contrib.auth import authenticate, login
 
 
@@ -10,17 +10,17 @@ class LoginAPIView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        user_serializer = UserSerializer(data=request.data)
+        login_serializer = LoginSerializer(data=request.data)
 
-        if not user_serializer.is_valid():
+        if not login_serializer.is_valid():
             return JsonResponse(
-                user_serializer.errors,
+                login_serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST
             )
 
         # Extract username and password from validated data
-        username = user_serializer.validated_data['username']
-        password = user_serializer.validated_data['password']
+        username = login_serializer.validated_data['username']
+        password = login_serializer.validated_data['password']
 
         # Authenticate the user
         user = authenticate(request, username=username, password=password)
