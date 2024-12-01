@@ -30,7 +30,7 @@ class ProfileAPIView(APIView):
     # Update the user's profile
     def post(self, request):
 
-        user_profile = request.user.userprofile  # Assuming a one-to-one relationship
+        user_profile = request.user.userprofile  # Get the user's profile
         user_profile_serializer = UserProfileSerializer(
             instance=user_profile, 
             data=request.data, 

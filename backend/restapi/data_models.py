@@ -1,11 +1,10 @@
+from django.db import models
+from django.contrib.auth.models import User
+from django.conf import settings
 import json
 from typing import List
-from django.conf import settings
-from dataclasses import dataclass
 from pydantic import BaseModel
-from .serializers import QuestionnaireSerializer
-from django.contrib.auth.models import User
-from django.db import models
+from dataclasses import dataclass
 
 
 @dataclass
@@ -34,6 +33,7 @@ class Questionnaire:
             self.questions = [Question(**question) for question in questionnaire]
 
     def to_dict(self):
+        from .serializers import QuestionnaireSerializer  # Local import to avoid circular dependency
         serializer = QuestionnaireSerializer(self)
         return serializer.data
 
