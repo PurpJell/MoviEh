@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
 from django.http import JsonResponse
 from ..serializers import UserProfileSerializer
 from django.contrib.auth.models import User
@@ -8,7 +8,7 @@ from ..data_models import UserProfile
 
 
 class ProfileAPIView(APIView):
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
 
