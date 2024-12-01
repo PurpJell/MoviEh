@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User
+from .data_models import UserProfile
 
 
 class OptionSerializer(serializers.Serializer):
@@ -44,3 +46,41 @@ class CombinedInputSerializer(serializers.Serializer):
         else:
             raise serializers.ValidationError("Must provide either questionnaire data (phrases and tags) or user input data.")  # noqa: E501
         return data
+    
+
+class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+    class Meta:
+        model = User
+        fields = ['username', 'password']
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = UserProfile
+        fields = ['user', 'comedy']
+
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
+        user = User.objects.create(**user_data)
+        user.set_password(user_data['password'])
+        user.save()
+        user_profile = UserProfile.objects.create(user=user, **validated_data)
+        return user_profile
+
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop('user')  # Remove the user data from the validated data
+        user = instance.user
+
+        instance.comedy = validated_data.get('comedy', instance.comedy)
+        instance.save()
+
+        if 'username' in user_data:
+            user.username = user_data['username']
+        if 'password' in user_data:
+            user.set_password(user_data['password'])
+        user.save()
+
+        return instance

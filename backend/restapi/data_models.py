@@ -4,6 +4,8 @@ from django.conf import settings
 from dataclasses import dataclass
 from pydantic import BaseModel
 from .serializers import QuestionnaireSerializer
+from django.contrib.auth.models import User
+from django.db import models
 
 
 @dataclass
@@ -64,3 +66,11 @@ class Movie(BaseModel):
 
 class Recommendation(BaseModel):
     movies: List[Movie]
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    comedy = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.user.username
