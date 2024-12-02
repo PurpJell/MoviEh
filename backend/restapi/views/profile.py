@@ -61,3 +61,12 @@ class ProfileAPIView(APIView):
             {"message": "Profile updated successfully."},
             status=status.HTTP_200_OK
         )
+
+    def delete(self, request):
+        user_profile = request.user.userprofile
+        user_profile.delete()
+
+        return JsonResponse(
+            {"message": "Profile deleted successfully."},
+            status=status.HTTP_200_OK
+        )
