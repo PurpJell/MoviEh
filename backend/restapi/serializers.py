@@ -34,6 +34,8 @@ class CombinedInputSerializer(serializers.Serializer):
     )
     user_input = serializers.CharField(max_length=500, required=False)
 
+    personalize = serializers.BooleanField(default=False)
+
     def validate(self, data):
         if 'phrases' in data and 'tags' in data:
             if 'user_input' in data:
@@ -45,11 +47,17 @@ class CombinedInputSerializer(serializers.Serializer):
                 raise serializers.ValidationError("Cannot provide both questionnaire and user input data.")  # noqa: E501
         else:
             raise serializers.ValidationError("Must provide either questionnaire data (phrases and tags) or user input data.")  # noqa: E501
+
+        if 'personalize' in data:
+            if not isinstance(data['personalize'], bool):
+                raise serializers.ValidationError("Personalize must be a boolean value.")
+
         return data
-    
+
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
+
     class Meta:
         model = User
         fields = ['username', 'password']
@@ -60,7 +68,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ['user', 'comedy']
+        fields = ['user', 'preferences']
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
@@ -82,13 +90,13 @@ class UserProfileSerializer(serializers.ModelSerializer):
                 user.set_password(user_data['password'])
             user.save()
 
-        if 'comedy' in validated_data:
-            instance.comedy = validated_data.get('comedy', instance.comedy)
-        
+        if 'preferences' in validated_data:
+            instance.preferences = validated_data['preferences']
+
         instance.save()
 
         return instance
-    
+
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()

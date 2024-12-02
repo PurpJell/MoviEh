@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from ..serializers import UserProfileSerializer
 from django.contrib.auth.models import User
 
+
 class RegisterAPIView(APIView):
     permission_classes = [AllowAny]
 
@@ -24,7 +25,7 @@ class RegisterAPIView(APIView):
                 {"error": "Username already taken."},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        
+
         # Save the user and user profile
         user_profile_serializer.save()
 

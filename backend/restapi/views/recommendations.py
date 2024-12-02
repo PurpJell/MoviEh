@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
-from restapi.services import GptRecommendationService, MockRecommendationService
+from restapi.services import GptRecommendationService, MockRecommendationService, PersonalizationService  # noqa:E501
 from ..serializers import CombinedInputSerializer
 import os
 
@@ -14,11 +14,11 @@ class RecommendationsAPIView(APIView):
         movie_recommendation_limit = 10
 
         if os.getenv("ENV") == "dev":
-            self.service = MockRecommendationService(movie_recommendation_limit)
+            self.recommendation_service = MockRecommendationService(movie_recommendation_limit)
         elif os.getenv("ENV") == "prod":
-            self.service = GptRecommendationService(movie_recommendation_limit)
+            self.recommendation_service = GptRecommendationService(movie_recommendation_limit)
         else:
-            self.service = MockRecommendationService(movie_recommendation_limit)
+            self.recommendation_service = MockRecommendationService(movie_recommendation_limit)
 
     def post(self, request):
 
@@ -41,18 +41,24 @@ class RecommendationsAPIView(APIView):
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-        film_recommendations = self.service.get_recommendations(prompt)
+        film_recommendations = self.recommendation_service.get_recommendations(prompt)
+
+        if request.personalize == True:
+            self.personalization_service = PersonalizationService(user_id=request.user.id)
+            film_recommendations = self.personalization_service.personalize_recommendations(
+                film_recommendations
+            )
 
         return Response({"recommendations": film_recommendations}, status=status.HTTP_200_OK)
 
     def get_questionnaire_prompt(self, phrases, tags):
 
-        prompt = self.service.form_questionnaire_prompt(phrases, tags)
+        prompt = self.recommendation_service.form_questionnaire_prompt(phrases, tags)
 
         return prompt
 
     def get_user_input_prompt(self, user_input):
 
-        prompt = self.service.form_user_input_prompt(user_input)
+        prompt = self.recommendation_service.form_user_input_prompt(user_input)
 
         return prompt

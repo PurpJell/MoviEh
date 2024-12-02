@@ -3,7 +3,6 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from django.http import JsonResponse
 from django.contrib.auth import logout
-from rest_framework.authtoken.models import Token
 
 
 class LogoutAPIView(APIView):

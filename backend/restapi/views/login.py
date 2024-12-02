@@ -29,10 +29,10 @@ class LoginAPIView(APIView):
                 {"error": "The username or password is incorrect."},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        
+
         # Log the user in
         login(request, user)
-        
+
         return JsonResponse(
             {"message": "User logged in successfully.", "username": username},
             status=status.HTTP_200_OK

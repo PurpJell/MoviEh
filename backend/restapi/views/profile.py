@@ -22,17 +22,30 @@ class ProfileAPIView(APIView):
             )
 
         return JsonResponse(
-            {"comedy": user_profile.comedy},
+            {"preferences": user_profile.preferences},
             status=status.HTTP_200_OK
         )
 
     # Update the user's profile
     def post(self, request):
-
         user_profile = request.user.userprofile  # Get the user's profile
+
+        # Access current preferences
+        current_preferences = user_profile.preferences
+
+        # Access new preferences from request data
+        new_preferences = request.data.get('preferences', {})
+
+        # Merge current preferences with new preferences
+        merged_preferences = {**current_preferences, **new_preferences}
+
+        # Update the request data with merged preferences
+        request.data['preferences'] = merged_preferences
+
+        # Instantiate the serializer
         user_profile_serializer = UserProfileSerializer(
-            instance=user_profile, 
-            data=request.data, 
+            instance=user_profile,
+            data=request.data,
             partial=True  # Allow partial updates
         )
 
