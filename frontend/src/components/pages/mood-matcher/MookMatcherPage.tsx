@@ -4,10 +4,13 @@ import Recommendations from '../../common/Recomendations';
 import api from '../../../api/api';
 import {IFilm} from '../../../types';
 import Loading from '../../common/Loading';
+import {useAuth} from '../../../AuthContext';
 
 const {Title} = Typography;
 
 const MoodMatcherPage: React.FC = () => {
+  const {isAuthenticated} = useAuth();
+
   const [recommendations, setRecommendations] = useState<IFilm[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [personalize, setPersonalize] = useState<boolean>(false);
@@ -69,17 +72,19 @@ const MoodMatcherPage: React.FC = () => {
           ]}>
           <Input placeholder="I feel like..." />
         </Form.Item>
-        <Form.Item>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-            <span>Personalize Recommendations</span>
-            <Switch onChange={checked => setPersonalize(checked)} />
-          </div>
-        </Form.Item>
+        {isAuthenticated && (
+          <Form.Item>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+              <span>Personalize Recommendations</span>
+              <Switch onChange={checked => setPersonalize(checked)} />
+            </div>
+          </Form.Item>
+        )}
         <Form.Item>
           <Button type="primary" htmlType="submit" block loading={loading}>
             Get Recommendations
