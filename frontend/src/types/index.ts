@@ -17,3 +17,8 @@ export interface IFilm {
   duration: number;
   shortDescription: string;
 }
+
+export interface IAuth {
+  username: string;
+  password: string;
+}
