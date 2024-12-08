@@ -9,6 +9,8 @@ const Header: React.FC = () => {
         alignItems: 'center',
         background: 'white',
         padding: '0',
+        justifyContent: 'center',
+        height: '100%',
       }}>
       <img src={logo} alt="logo" style={{height: '100%'}} />
       <span style={{fontSize: '24px', fontWeight: 'bold'}}>MoviEh</span>

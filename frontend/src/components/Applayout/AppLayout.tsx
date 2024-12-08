@@ -1,9 +1,12 @@
 import React, {ReactNode, Suspense} from 'react';
-import {Layout, theme} from 'antd';
+import {Button, Layout, theme} from 'antd';
 import Sidebar from './Sidebar';
-import {Outlet} from 'react-router-dom';
+import {Outlet, useNavigate} from 'react-router-dom';
 import Loading from '../common/Loading';
 import Logo from './Logo';
+import PathConstants from '../../routes/PathConstants';
+import {useAuth} from '../../AuthContext';
+import UserMenu from './UserMenu';
 
 const {Content, Footer, Header} = Layout;
 
@@ -12,20 +15,37 @@ interface AppLayoutProps {
 }
 
 const AppLayout: React.FC<AppLayoutProps> = ({children}) => {
+  const {isAuthenticated} = useAuth();
+  const navigate = useNavigate();
   const {
     token: {colorBgContainer, borderRadiusLG},
   } = theme.useToken();
+
+  const handleLoginClick = () => {
+    navigate(PathConstants.LOGIN);
+  };
 
   return (
     <Layout style={{height: '100vh'}}>
       <Header
         style={{
           display: 'flex',
-          alignItems: 'left',
+          alignItems: 'center',
           background: 'white',
-          padding: '0',
+          padding: '0 2% 0  0',
+          justifyContent: 'space-between',
         }}>
         <Logo />
+        {isAuthenticated ? (
+          <UserMenu />
+        ) : (
+          <Button
+            type="primary"
+            onClick={handleLoginClick}
+            style={{marginLeft: 'auto'}}>
+            Login
+          </Button>
+        )}
       </Header>
       <Layout>
         <Sidebar />
@@ -40,7 +60,15 @@ const AppLayout: React.FC<AppLayoutProps> = ({children}) => {
             }}>
             <Suspense fallback={<Loading />}>{children ?? <Outlet />}</Suspense>
           </Content>
-          <Footer style={{textAlign: 'center'}}>
+          <Footer
+            style={{
+              background: colorBgContainer,
+              maxHeight: '50px',
+              height: '4vh',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
             MoviEh ©{new Date().getFullYear()}
           </Footer>
         </Layout>

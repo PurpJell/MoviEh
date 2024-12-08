@@ -1,8 +1,7 @@
-import React from 'react';
-import {useNavigate} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {useNavigate, useLocation} from 'react-router-dom';
 import PathConstants from '../../routes/PathConstants';
 import {Layout, Menu} from 'antd';
-import {MenuInfo} from 'rc-menu/lib/interface';
 import {FormOutlined, QuestionOutlined} from '@ant-design/icons';
 
 const {Sider} = Layout;
@@ -24,16 +23,20 @@ const items = [
 
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [selectedKey, setSelectedKey] = useState<string | null>(null);
 
-  const handleClick = (e: MenuInfo) => {
+  useEffect(() => {
+    const currentItem = items.find(item => location.pathname === item.path);
+    setSelectedKey(currentItem ? currentItem.key : null);
+  }, [location.pathname]);
+
+  const handleClick = (e: {key: string}) => {
     const clickedItem = items.find(item => item.key === e.key);
     if (clickedItem) {
       navigate(clickedItem.path);
     }
   };
-
-  const currentSelectedKey =
-    items.find(item => window.location.pathname === item.path)?.key ?? '1';
 
   return (
     <Sider collapsible theme="light">
@@ -41,7 +44,7 @@ const Sidebar: React.FC = () => {
         theme="light"
         mode="inline"
         items={items}
-        defaultSelectedKeys={[currentSelectedKey]}
+        selectedKeys={selectedKey ? [selectedKey] : undefined}
         onClick={handleClick}
       />
     </Sider>
