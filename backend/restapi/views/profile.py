@@ -27,7 +27,7 @@ class ProfileAPIView(APIView):
         )
 
     # Update the user's profile
-    def post(self, request):
+    def put(self, request):
         user_profile = request.user.userprofile  # Get the user's profile
 
         # Access current preferences
