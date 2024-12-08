@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { IProfile } from '../../../types';
+import React, {useEffect, useState} from 'react';
+import {IProfile} from '../../../types';
 import api from '../../../api/api';
-import { message, Typography, Space } from 'antd';
+import {message, Typography, Space} from 'antd';
 import Preferences from './Preferences';
 import EditProfile from './EditProfile';
 
-const { Title } = Typography;
+const {Title} = Typography;
 
 const ProfilePage: React.FC = () => {
   const [profile, setProfile] = useState<IProfile | null>(null);
@@ -28,12 +28,12 @@ const ProfilePage: React.FC = () => {
       style={{
         padding: '2%',
       }}>
-      <Title level={3} style={{ textAlign: 'center', marginBottom: '24px' }}>
+      <Title level={3} style={{textAlign: 'center', marginBottom: '24px'}}>
         Edit Profile
       </Title>
       <EditProfile profile={profile} setProfile={setProfile} />
 
-      <Space direction="vertical" style={{ width: '100%' }}>
+      <Space direction="vertical" style={{width: '100%'}}>
         <Title level={4}>Preferences</Title>
       </Space>
       <Preferences preferences={profile?.preferences || {}} />

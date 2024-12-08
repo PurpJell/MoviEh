@@ -4,7 +4,7 @@ import {useAuth} from '../../AuthContext';
 import api from '../../api/api';
 import {LogoutOutlined, ProfileOutlined, UserOutlined} from '@ant-design/icons';
 import PathConstants from '../../routes/PathConstants';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const UserMenu: React.FC = () => {
   const navigate = useNavigate();

@@ -12,7 +12,9 @@ const MoodMatcher = React.lazy(
 const Questionnaire = React.lazy(
   () => import('../components/pages/questionnaire/QuestionnairePage'),
 );
-const Profile = React.lazy(() => import('../components/pages/profile/ProfilePage'));
+const Profile = React.lazy(
+  () => import('../components/pages/profile/ProfilePage'),
+);
 
 const routes = [
   {path: '', element: <Navigate to={PathConstants.HOME} />},

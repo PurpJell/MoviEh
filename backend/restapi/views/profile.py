@@ -22,7 +22,7 @@ class ProfileAPIView(APIView):
             )
 
         return JsonResponse(
-            {"username": user_profile.user.username ,"preferences": user_profile.preferences},
+            {"username": user_profile.user.username, "preferences": user_profile.preferences},
             status=status.HTTP_200_OK
         )
 

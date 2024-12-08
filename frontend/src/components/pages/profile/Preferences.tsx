@@ -1,15 +1,14 @@
 import React from 'react';
-import { IProfile } from '../../../types';
-import { Space, Table,  Typography} from 'antd';
+import {IProfile} from '../../../types';
+import {Space, Table, Typography} from 'antd';
 
-const { Text } = Typography;
+const {Text} = Typography;
 
 interface PreferencesProps {
   preferences: IProfile['preferences'];
 }
 
-const Preferences: React.FC<PreferencesProps> = ({ preferences }) => {
-
+const Preferences: React.FC<PreferencesProps> = ({preferences}) => {
   const preferenceData = preferences
     ? Object.entries(preferences).map(([genre, score]) => ({
         key: genre,
@@ -28,12 +27,14 @@ const Preferences: React.FC<PreferencesProps> = ({ preferences }) => {
       title: 'Score',
       dataIndex: 'score',
       key: 'score',
-      render: (score: number) => <Text>{score >= 0 ? `+${score}` : score}</Text>,
+      render: (score: number) => (
+        <Text>{score >= 0 ? `+${score}` : score}</Text>
+      ),
     },
   ];
 
   return (
-    <Space direction="vertical" style={{ width: '100%' }}>
+    <Space direction="vertical" style={{width: '100%'}}>
       <Table columns={columns} dataSource={preferenceData} />
     </Space>
   );

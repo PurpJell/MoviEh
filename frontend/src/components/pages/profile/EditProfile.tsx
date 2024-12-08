@@ -1,21 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { IProfile } from '../../../types';
+import React, {useState, useEffect} from 'react';
+import {IProfile} from '../../../types';
 import api from '../../../api/api';
-import { message, Button, Input, Typography, Space, Card, Row, Modal } from 'antd';
-import { EditOutlined, LockOutlined, CheckOutlined, CloseOutlined, DeleteOutlined } from '@ant-design/icons';
+import {
+  message,
+  Button,
+  Input,
+  Typography,
+  Space,
+  Card,
+  Row,
+  Modal,
+} from 'antd';
+import {
+  EditOutlined,
+  LockOutlined,
+  CheckOutlined,
+  CloseOutlined,
+  DeleteOutlined,
+} from '@ant-design/icons';
 import PasswordModal from './PasswordModal';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import PathConstants from '../../../routes/PathConstants';
-import { useAuth } from '../../../AuthContext';
+import {useAuth} from '../../../AuthContext';
 
-const { Text } = Typography;
+const {Text} = Typography;
 
 interface ProfilePageProps {
   profile: IProfile | null;
   setProfile: React.Dispatch<React.SetStateAction<IProfile | null>>;
 }
 
-const EditProfile: React.FC<ProfilePageProps> = ({ profile, setProfile }) => {
+const EditProfile: React.FC<ProfilePageProps> = ({profile, setProfile}) => {
   const navigate = useNavigate();
   const {setIsAuthenticated} = useAuth();
 
@@ -44,7 +59,7 @@ const EditProfile: React.FC<ProfilePageProps> = ({ profile, setProfile }) => {
     try {
       await api.put('profile/', {user: {username}});
       message.success('Username updated successfully');
-      setProfile((prevProfile) => ({ ...prevProfile, username } as IProfile));
+      setProfile(prevProfile => ({...prevProfile, username}) as IProfile);
       setIsEditingUsername(false);
     } catch (error) {
       message.error('Username is already taken');
@@ -73,22 +88,21 @@ const EditProfile: React.FC<ProfilePageProps> = ({ profile, setProfile }) => {
 
   return (
     <div>
-      <Space direction="vertical" style={{ width: '100%' }}>
+      <Space direction="vertical" style={{width: '100%'}}>
         <Card
           style={{
             border: '1px solid #f0f0f0',
             borderRadius: '12px',
           }}
-          hoverable
-        >
+          hoverable>
           <Row justify="space-between" align="middle">
             <Text strong>Username:</Text>
             {isEditingUsername ? (
               <Space>
                 <Input
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  style={{ width: '200px' }}
+                  onChange={e => setUsername(e.target.value)}
+                  style={{width: '200px'}}
                   placeholder="Enter new username"
                   autoFocus
                 />
@@ -108,8 +122,7 @@ const EditProfile: React.FC<ProfilePageProps> = ({ profile, setProfile }) => {
                 <Button
                   type="link"
                   icon={<EditOutlined />}
-                  onClick={handleUsernameEdit}
-                >
+                  onClick={handleUsernameEdit}>
                   Edit
                 </Button>
               </Space>
@@ -122,16 +135,14 @@ const EditProfile: React.FC<ProfilePageProps> = ({ profile, setProfile }) => {
             border: '1px solid #f0f0f0',
             borderRadius: '12px',
           }}
-          hoverable
-        >
+          hoverable>
           <Row justify="space-between" align="middle">
             <Text strong>Password:</Text>
             <Button
               type="primary"
               icon={<LockOutlined />}
               size="large"
-              onClick={openPasswordModal}
-            >
+              onClick={openPasswordModal}>
               Change Password
             </Button>
           </Row>
@@ -143,10 +154,9 @@ const EditProfile: React.FC<ProfilePageProps> = ({ profile, setProfile }) => {
             borderRadius: '12px',
             backgroundColor: '#fff1f0',
           }}
-          hoverable
-        >
+          hoverable>
           <Row justify="space-between" align="middle">
-            <Text strong style={{ color: '#cf1322' }}>
+            <Text strong style={{color: '#cf1322'}}>
               Danger Zone
             </Text>
             <Button
@@ -154,8 +164,7 @@ const EditProfile: React.FC<ProfilePageProps> = ({ profile, setProfile }) => {
               type="primary"
               icon={<DeleteOutlined />}
               size="large"
-              onClick={showDeleteModal}
-            >
+              onClick={showDeleteModal}>
               Delete Account
             </Button>
           </Row>
@@ -174,10 +183,10 @@ const EditProfile: React.FC<ProfilePageProps> = ({ profile, setProfile }) => {
         onCancel={closeDeleteModal}
         okText="Delete"
         okType="danger"
-        cancelText="Cancel"
-      >
+        cancelText="Cancel">
         <Text>
-          Are you sure you want to delete your account? This action cannot be undone.
+          Are you sure you want to delete your account? This action cannot be
+          undone.
         </Text>
       </Modal>
     </div>
