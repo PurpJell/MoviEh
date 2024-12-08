@@ -22,12 +22,12 @@ class ProfileAPIView(APIView):
             )
 
         return JsonResponse(
-            {"preferences": user_profile.preferences},
+            {"username": user_profile.user.username, "preferences": user_profile.preferences},
             status=status.HTTP_200_OK
         )
 
     # Update the user's profile
-    def post(self, request):
+    def put(self, request):
         user_profile = request.user.userprofile  # Get the user's profile
 
         # Access current preferences

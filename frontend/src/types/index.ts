@@ -22,3 +22,8 @@ export interface IAuth {
   username: string;
   password: string;
 }
+
+export interface IProfile {
+  username: string;
+  preferences: Record<string, number>;
+}

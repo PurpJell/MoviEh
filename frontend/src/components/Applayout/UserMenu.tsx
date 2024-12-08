@@ -2,15 +2,19 @@ import React from 'react';
 import {Avatar, Dropdown} from 'antd';
 import {useAuth} from '../../AuthContext';
 import api from '../../api/api';
-import {LogoutOutlined, UserOutlined} from '@ant-design/icons';
+import {LogoutOutlined, ProfileOutlined, UserOutlined} from '@ant-design/icons';
+import PathConstants from '../../routes/PathConstants';
+import {useNavigate} from 'react-router-dom';
 
 const UserMenu: React.FC = () => {
+  const navigate = useNavigate();
   const {setIsAuthenticated} = useAuth();
 
   const handleLogout = async () => {
     try {
       await api.get('logout/');
       setIsAuthenticated(false);
+      navigate(PathConstants.HOME);
     } catch (error) {
       console.error('Failed to logout:');
       console.error(error);
@@ -18,6 +22,14 @@ const UserMenu: React.FC = () => {
   };
 
   const menuItems = [
+    {
+      key: 'profile',
+      label: 'Profile',
+      icon: <ProfileOutlined />,
+      onClick: () => {
+        navigate(PathConstants.PROFILE);
+      },
+    },
     {
       key: 'logout',
       label: 'Logout',
