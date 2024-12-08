@@ -1,9 +1,10 @@
+from django.db import models
+from django.contrib.auth.models import User
+from django.conf import settings
 import json
 from typing import List
-from django.conf import settings
+from pydantic import BaseModel, Field
 from dataclasses import dataclass
-from pydantic import BaseModel
-from .serializers import QuestionnaireSerializer
 
 
 @dataclass
@@ -32,6 +33,7 @@ class Questionnaire:
             self.questions = [Question(**question) for question in questionnaire]
 
     def to_dict(self):
+        from .serializers import QuestionnaireSerializer  # Local import avoids circular dependency
         serializer = QuestionnaireSerializer(self)
         return serializer.data
 
@@ -62,5 +64,18 @@ class Movie(BaseModel):
     shortDescription: str
 
 
+class PersonalizedMovie(Movie):
+    personalization_score: float = Field(default=0.0)
+
+
 class Recommendation(BaseModel):
     movies: List[Movie]
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    preferences = models.JSONField(default=dict)
+
+    def __str__(self):
+        return self.user.username
