@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Typography, Form, Input, Button, message} from 'antd';
+import {Typography, Form, Input, Button, Switch, message} from 'antd';
 import Recommendations from '../../common/Recomendations';
 import api from '../../../api/api';
 import {IFilm} from '../../../types';
@@ -10,6 +10,7 @@ const {Title} = Typography;
 const MoodMatcherPage: React.FC = () => {
   const [recommendations, setRecommendations] = useState<IFilm[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [personalize, setPersonalize] = useState<boolean>(false);
 
   const handleMoodSubmit = async (values: {description: string}) => {
     setLoading(true);
@@ -17,6 +18,7 @@ const MoodMatcherPage: React.FC = () => {
     try {
       const response = await api.post('recommendations/', {
         user_input: values.description,
+        personalize,
       });
 
       if (response.data.recommendations?.length > 0) {
@@ -66,6 +68,17 @@ const MoodMatcherPage: React.FC = () => {
             },
           ]}>
           <Input placeholder="I feel like..." />
+        </Form.Item>
+        <Form.Item>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <span>Personalize Recommendations</span>
+            <Switch onChange={checked => setPersonalize(checked)} />
+          </div>
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" block loading={loading}>
