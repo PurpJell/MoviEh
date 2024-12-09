@@ -13,9 +13,7 @@ class RecommendationsAPIView(APIView):
     def __init__(self):
         movie_recommendation_limit = 10
 
-        if os.getenv("ENV") == "dev":
-            self.recommendation_service = MockRecommendationService(movie_recommendation_limit)
-        elif os.getenv("ENV") == "prod":
+        if os.getenv("OPENAI_API_KEY") is not None:
             self.recommendation_service = GptRecommendationService(movie_recommendation_limit)
         else:
             self.recommendation_service = MockRecommendationService(movie_recommendation_limit)
@@ -31,7 +29,6 @@ class RecommendationsAPIView(APIView):
                     validated_data["phrases"],
                     validated_data["tags"]
                 )
-                # return Response({"phrases":validated_data["phrases"], "tags":validated_data["tags"]}, status=status.HTTP_200_OK)
             elif 'user_input' in validated_data:
                 prompt = self.get_user_input_prompt(
                     validated_data["user_input"]
@@ -44,7 +41,7 @@ class RecommendationsAPIView(APIView):
 
         film_recommendations = self.recommendation_service.get_recommendations(prompt)
 
-        if validated_data["personalize"]:
+        if request.personalize:
             self.personalization_service = PersonalizationService(user_id=request.user.id)
             film_recommendations = self.personalization_service.personalize_recommendations(
                 film_recommendations
