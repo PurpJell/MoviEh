@@ -33,8 +33,11 @@ const Recommendations: React.FC<IRecommendationsProps> = ({
 
   const handleFilterChange = () => {
     const recommendationCopy = [...recommendations];
-    const recoms = !personalized ? recommendationCopy
-    : recommendationCopy.sort((a, b) => b.personalization_score - a.personalization_score);
+    const recoms = !personalized
+      ? recommendationCopy
+      : recommendationCopy.sort(
+          (a, b) => b.personalization_score - a.personalization_score,
+        );
 
     const filtered = recoms.filter(film => {
       const matchesGenre = selectedGenre
