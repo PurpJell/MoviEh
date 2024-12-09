@@ -41,11 +41,10 @@ class RecommendationsAPIView(APIView):
 
         film_recommendations = self.recommendation_service.get_recommendations(prompt)
 
-        if request.personalize:
-            self.personalization_service = PersonalizationService(user_id=request.user.id)
-            film_recommendations = self.personalization_service.personalize_recommendations(
-                film_recommendations
-            )
+        self.personalization_service = PersonalizationService(user_id=request.user.id)
+        film_recommendations = self.personalization_service.personalize_recommendations(
+            film_recommendations
+        )
 
         return Response({"recommendations": film_recommendations}, status=status.HTTP_200_OK)
 
