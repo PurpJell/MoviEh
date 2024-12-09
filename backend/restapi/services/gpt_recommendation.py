@@ -23,7 +23,7 @@ class GptRecommendationService:
             f"and fits as many of these tags, as possible: {', '.join(tags)}. "
             f"Return me {self.limit} movies."
         )
-        
+
         return prompt
 
     def form_user_input_prompt(self, user_input, favorite_genres):
@@ -44,7 +44,7 @@ class GptRecommendationService:
 
         if favorite_genres:
             prompt += f"Genre preferences: {', '.join(favorite_genres)}. "
-        
+
         prompt += f"Return me {self.limit} movies."
 
         return prompt

@@ -8,14 +8,14 @@ class PersonalizationService():
         self.user_id = user_id
 
         try:
-            user=User.objects.get(id=self.user_id)
+            user = User.objects.get(id=self.user_id)
             # Fetch the user's profile
             self.user_profile = UserProfile.objects.get(
                 user=user
                 )
         except (UserProfile.DoesNotExist, User.DoesNotExist):
             self.user_profile = None
-            
+
         if self.user_profile is None:
             self.normalized_preferences = {}
             return
@@ -33,10 +33,16 @@ class PersonalizationService():
         # Get the user's favorite genres
         if self.user_profile is not None:
             # Filter positive preferences
-            positive_preferences = {genre: score for genre, score in self.user_profile.preferences.items() if score > 0}
+            positive_preferences = {
+                genre: score for genre, score
+                in self.user_profile.preferences.items()
+                if score > 0
+                }
 
             # Sort preferences by score in descending order
-            sorted_preferences = sorted(positive_preferences.items(), key=lambda item: item[1], reverse=True)
+            sorted_preferences = sorted(
+                positive_preferences.items(), key=lambda item: item[1], reverse=True
+                )
 
             # Get the top 5 favorite genres
             favorite_genres = [genre for genre, score in sorted_preferences[:5]]
@@ -49,7 +55,6 @@ class PersonalizationService():
 
         # Personalize the recommendations based on the user's preferences
         personalized_recommendations = []
-
 
         for movie in recommendations:
             # Ensure that shortDescription is a string
