@@ -7,12 +7,21 @@ class PersonalizationService():
     def __init__(self, user_id):
         self.user_id = user_id
 
-        # Fetch the user's profile
-        self.user_profile = UserProfile.objects.get(
+        try:
             user=User.objects.get(id=self.user_id)
-            )
+            # Fetch the user's profile
+            self.user_profile = UserProfile.objects.get(
+                user=user
+                )
+        except (UserProfile.DoesNotExist, User.DoesNotExist):
+            self.user_profile = None
+            
+        if self.user_profile is None:
+            self.normalized_preferences = {}
+            return
+
         self.preferences = self.user_profile.preferences
-        print(self.preferences)
+        # print(self.preferences)
         self.normalized_preferences = {}
 
         preference_value_total = sum(abs(value) for value in self.preferences.values())

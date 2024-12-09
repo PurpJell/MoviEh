@@ -31,6 +31,7 @@ class RecommendationsAPIView(APIView):
                     validated_data["phrases"],
                     validated_data["tags"]
                 )
+                # return Response({"phrases":validated_data["phrases"], "tags":validated_data["tags"]}, status=status.HTTP_200_OK)
             elif 'user_input' in validated_data:
                 prompt = self.get_user_input_prompt(
                     validated_data["user_input"]
@@ -43,7 +44,7 @@ class RecommendationsAPIView(APIView):
 
         film_recommendations = self.recommendation_service.get_recommendations(prompt)
 
-        if request.personalize:
+        if validated_data["personalize"]:
             self.personalization_service = PersonalizationService(user_id=request.user.id)
             film_recommendations = self.personalization_service.personalize_recommendations(
                 film_recommendations
