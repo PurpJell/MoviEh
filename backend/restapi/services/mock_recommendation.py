@@ -86,7 +86,7 @@ class MockRecommendationService:
 
         return prompt
 
-    def form_user_input_prompt(self, user_input):
+    def form_user_input_prompt(self, user_input, favorite_genres):
         prompt = "Fake prompt"
 
         time.sleep(7)  # simulate long processing time

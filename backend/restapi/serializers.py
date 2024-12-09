@@ -34,7 +34,7 @@ class CombinedInputSerializer(serializers.Serializer):
     )
     user_input = serializers.CharField(max_length=500, required=False)
 
-    personalize = serializers.BooleanField(default=False)
+    personalize = serializers.BooleanField(required=False)
 
     def validate(self, data):
         if 'phrases' in data and 'tags' in data:
