@@ -21,7 +21,6 @@ class PersonalizationService():
             return
 
         self.preferences = self.user_profile.preferences
-        # print(self.preferences)
         self.normalized_preferences = {}
 
         preference_value_total = sum(abs(value) for value in self.preferences.values())
