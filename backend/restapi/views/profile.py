@@ -65,6 +65,8 @@ class ProfileAPIView(APIView):
     def delete(self, request):
         user_profile = request.user.userprofile
         user_profile.delete()
+        user = request.user
+        user.delete()
 
         return JsonResponse(
             {"message": "Profile deleted successfully."},

@@ -26,7 +26,7 @@ class GptRecommendationService:
 
         return prompt
 
-    def form_user_input_prompt(self, user_input):
+    def form_user_input_prompt(self, user_input, favorite_genres):
 
         user_input = user_input.strip()  # Remove leading and trailing spaces
         user_input = user_input.lower()  # Convert to lowercase
@@ -40,8 +40,12 @@ class GptRecommendationService:
         prompt = (
             f"Based on the user's input: `{user_input}`, recommend them movies that best match this description. "  # noqa: E501
             f"Ensure the recommendations align with the emotional tone, genre preferences, or any specific details provided. "  # noqa: E501
-            f"Return me {self.limit} movies."
         )
+
+        if favorite_genres:
+            prompt += f"Genre preferences: {', '.join(favorite_genres)}. "
+
+        prompt += f"Return me {self.limit} movies."
 
         return prompt
 

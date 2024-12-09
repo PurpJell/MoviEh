@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Typography, Card, Col, Row, Select, Slider} from 'antd';
+import {Typography, Col, Row, Select, Slider, Switch} from 'antd';
 import {IFilm} from '../../types';
+import Film from './Film';
 
 const {Title, Text} = Typography;
 const {Option} = Select;
@@ -12,6 +13,7 @@ interface IRecommendationsProps {
 const Recommendations: React.FC<IRecommendationsProps> = ({
   recommendations,
 }) => {
+  const [personalized, setPersonalized] = useState<boolean>(true);
   const [filteredRecommendations, setFilteredRecommendations] =
     useState<IFilm[]>(recommendations);
 
@@ -30,7 +32,14 @@ const Recommendations: React.FC<IRecommendationsProps> = ({
   );
 
   const handleFilterChange = () => {
-    const filtered = recommendations.filter(film => {
+    const recommendationCopy = [...recommendations];
+    const recoms = !personalized
+      ? recommendationCopy
+      : recommendationCopy.sort(
+          (a, b) => b.personalization_score - a.personalization_score,
+        );
+
+    const filtered = recoms.filter(film => {
       const matchesGenre = selectedGenre
         ? film.genres.includes(selectedGenre)
         : true;
@@ -45,7 +54,7 @@ const Recommendations: React.FC<IRecommendationsProps> = ({
 
   useEffect(() => {
     handleFilterChange();
-  }, [selectedGenre, yearRange, durationRange, recommendations]);
+  }, [selectedGenre, yearRange, durationRange, recommendations, personalized]);
 
   return (
     <div style={{padding: '24px', width: '80%', margin: 'auto'}}>
@@ -55,6 +64,21 @@ const Recommendations: React.FC<IRecommendationsProps> = ({
 
       <div style={{marginBottom: '24px'}}>
         <Row gutter={[16, 16]}>
+          <Col span={24}>
+            <Switch
+              checkedChildren="Personalized"
+              unCheckedChildren="Generic"
+              defaultChecked
+              onChange={checked => {
+                if (checked) {
+                  setPersonalized(true);
+                } else {
+                  setPersonalized(false);
+                }
+              }}
+            />
+          </Col>
+
           <Col span={8}>
             <Text strong>Select Genre:</Text>
             <Select
@@ -111,24 +135,7 @@ const Recommendations: React.FC<IRecommendationsProps> = ({
         {filteredRecommendations.length > 0 ? (
           filteredRecommendations.map((film, index) => (
             <Col key={index} span={8}>
-              <Card
-                title={film.title}
-                bordered={false}
-                hoverable
-                style={{marginBottom: '16px'}}>
-                <Text strong>Year:</Text> <Text>{film.year}</Text>
-                <br />
-                <Text strong>Genres:</Text>{' '}
-                <Text>{film.genres.join(', ')}</Text>
-                <br />
-                <Text strong>Rating:</Text> <Text>{film.rating}</Text>
-                <br />
-                <Text strong>Duration:</Text> <Text>{film.duration} min.</Text>
-                <br />
-                <Text strong>Description:</Text>{' '}
-                <Text>{film.shortDescription}</Text>
-                <br />
-              </Card>
+              <Film film={film} />
             </Col>
           ))
         ) : (
