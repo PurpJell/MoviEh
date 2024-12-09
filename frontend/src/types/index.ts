@@ -16,6 +16,7 @@ export interface IFilm {
   rating: number;
   duration: number;
   shortDescription: string;
+  personalization_score: number;
 }
 
 export interface IAuth {
