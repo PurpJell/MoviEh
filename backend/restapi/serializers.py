@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .data_models import UserProfile
+from .data_models import UserProfile, Movie
 
 
 class OptionSerializer(serializers.Serializer):
@@ -90,9 +90,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
                 user.set_password(user_data['password'])
             user.save()
 
-        if 'preferences' in validated_data:
-            instance.preferences = validated_data['preferences']
-
         instance.save()
 
         return instance
@@ -101,3 +98,18 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only=True)
+
+
+class FeedbackSerializer(serializers.Serializer):
+    movie_title = serializers.CharField(max_length=255)
+    feedback_polarity = serializers.BooleanField()
+
+
+class MovieSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Movie
+        fields = ['id', 'title', 'genres', 'year', 'rating', 'duration', 'shortDescription']
+
+
+class UnlikeMovieSerializer(serializers.Serializer):
+    movie_title = serializers.CharField(max_length=255)

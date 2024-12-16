@@ -1,7 +1,7 @@
 from openai import OpenAI
 import os
 import json
-from ..data_models import Recommendation
+from ..data_models import ChatGPTRecommendation as Recommendation
 from pydantic import ValidationError
 import re
 

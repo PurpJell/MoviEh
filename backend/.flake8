@@ -1,3 +1,5 @@
 [flake8]
-per-file-ignores = __init__.py:F401 0001_initial.py:E501
+per-file-ignores = 
+    __init__.py:F401
+    ./restapi/migrations/*:E501
 max-line-length = 100

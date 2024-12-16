@@ -5,6 +5,8 @@ from restapi.views import login
 from restapi.views import register
 from restapi.views import profile
 from restapi.views import logout
+from restapi.views import feedback
+from restapi.views import liked_movies
 
 
 urlpatterns = [
@@ -38,4 +40,14 @@ urlpatterns = [
         logout.LogoutAPIView.as_view(),
         name='logout'
     ),
+    path(
+        'feedback/',
+        feedback.FeedbackAPIView.as_view(),
+        name='feedback'
+    ),
+    path(
+        'liked_movies/',
+        liked_movies.LikedMoviesAPIView.as_view(),
+        name='liked_movies'
+    )
 ]
