@@ -5,6 +5,7 @@ from rest_framework.permissions import AllowAny
 from restapi.services import GptRecommendationService, MockRecommendationService, PersonalizationService  # noqa:E501
 from ..serializers import CombinedInputSerializer
 import os
+from ..data_models import Movie
 
 
 class RecommendationsAPIView(APIView):
@@ -48,6 +49,11 @@ class RecommendationsAPIView(APIView):
 
         film_recommendations = self.recommendation_service.get_recommendations(prompt)
 
+        for film in film_recommendations:
+            # If movie isn't already in the database, add it
+            if not Movie.objects.filter(title=film["title"]).first():
+                self.create_movie(film)
+
         film_recommendations = self.personalization_service.personalize_recommendations(
             film_recommendations
         )
@@ -65,3 +71,16 @@ class RecommendationsAPIView(APIView):
         prompt = self.recommendation_service.form_user_input_prompt(user_input, favorite_genres)
 
         return prompt
+
+    def create_movie(self, film):
+        movie = Movie(
+            title=film["title"],
+            genres=film["genres"],
+            year=film["year"],
+            rating=film["rating"],
+            duration=film["duration"],
+            shortDescription=film["shortDescription"],
+        )
+        movie.save()
+
+        return movie

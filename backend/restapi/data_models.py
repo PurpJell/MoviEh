@@ -55,7 +55,7 @@ class TagList:
             self.tags = data['tags']
 
 
-class Movie(BaseModel):
+class ChatGPTMovie(BaseModel):
     title: str
     genres: List[str]
     year: int
@@ -63,19 +63,48 @@ class Movie(BaseModel):
     duration: int
     shortDescription: str
 
+    def __str__(self):
+        return self.title
 
-class PersonalizedMovie(Movie):
+
+class ChatGPTRecommendation(BaseModel):
+    movies: List[ChatGPTMovie]
+
+
+class PersonalizedMovie(ChatGPTMovie):
     personalization_score: float = Field(default=0.0)
 
 
-class Recommendation(BaseModel):
-    movies: List[Movie]
+class Movie(models.Model):
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=255)
+    genres = models.JSONField(default=list)
+    year = models.IntegerField()
+    rating = models.FloatField()
+    duration = models.IntegerField()
+    shortDescription = models.TextField()
+
+    def __str__(self):
+        return self.title
+
+    def create(self, data):
+        movie = Movie(
+            title=data["title"],
+            genres=data["genres"],
+            year=data["year"],
+            rating=data["rating"],
+            duration=data["duration"],
+            shortDescription=data["shortDescription"],
+        )
+        movie.save()
 
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     preferences = models.JSONField(default=dict)
+
+    liked_movies = models.ManyToManyField('Movie', related_name='users')
 
     def __str__(self):
         return self.user.username

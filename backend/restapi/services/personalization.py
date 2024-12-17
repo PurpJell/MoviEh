@@ -2,7 +2,7 @@ from restapi.data_models import UserProfile, PersonalizedMovie
 from django.contrib.auth.models import User
 
 
-class PersonalizationService():
+class PersonalizationService:
 
     def __init__(self, user_id):
         self.user_id = user_id
