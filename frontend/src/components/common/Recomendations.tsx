@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Typography, Col, Row, Select, Slider, Switch} from 'antd';
 import {IFilm} from '../../types';
 import Film from './Film';
+import {useAuth} from '../../AuthContext';
 
 const {Title, Text} = Typography;
 const {Option} = Select;
@@ -13,6 +14,8 @@ interface IRecommendationsProps {
 const Recommendations: React.FC<IRecommendationsProps> = ({
   recommendations,
 }) => {
+  const {isAuthenticated} = useAuth();
+
   const [personalized, setPersonalized] = useState<boolean>(true);
   const [filteredRecommendations, setFilteredRecommendations] =
     useState<IFilm[]>(recommendations);
@@ -135,7 +138,7 @@ const Recommendations: React.FC<IRecommendationsProps> = ({
         {filteredRecommendations.length > 0 ? (
           filteredRecommendations.map((film, index) => (
             <Col key={index} span={8}>
-              <Film film={film} />
+              <Film film={film} giveFeedback={isAuthenticated} />
             </Col>
           ))
         ) : (
