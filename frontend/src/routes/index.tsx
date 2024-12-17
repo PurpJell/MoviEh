@@ -15,6 +15,9 @@ const Questionnaire = React.lazy(
 const Profile = React.lazy(
   () => import('../components/pages/profile/ProfilePage'),
 );
+const LikedFilms = React.lazy(
+  () => import('../components/pages/liked-films/LikedFilmsPage'),
+);
 
 const routes = [
   {path: '', element: <Navigate to={PathConstants.HOME} />},
@@ -23,6 +26,7 @@ const routes = [
   {path: PathConstants.PROFILE, element: <Profile />},
   {path: PathConstants.MOOD_MATCHER, element: <MoodMatcher />},
   {path: PathConstants.QUESTIONNAIRE, element: <Questionnaire />},
+  {path: PathConstants.LIKED_FILMS, element: <LikedFilms />},
 ];
 
 export default routes;

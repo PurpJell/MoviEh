@@ -5,6 +5,7 @@ const PathConstants = {
   LOGIN: '/login',
   REGISTER: '/register',
   PROFILE: '/profile',
+  LIKED_FILMS: '/liked-films',
 };
 
 export default PathConstants;

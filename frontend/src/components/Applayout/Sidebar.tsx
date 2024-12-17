@@ -2,7 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate, useLocation} from 'react-router-dom';
 import PathConstants from '../../routes/PathConstants';
 import {Layout, Menu} from 'antd';
-import {FormOutlined, QuestionOutlined} from '@ant-design/icons';
+import {
+  FormOutlined,
+  QuestionOutlined,
+  UnorderedListOutlined,
+} from '@ant-design/icons';
 
 const {Sider} = Layout;
 
@@ -18,6 +22,12 @@ const items = [
     icon: <QuestionOutlined />,
     label: 'Questionnaire',
     path: PathConstants.QUESTIONNAIRE,
+  },
+  {
+    key: '3',
+    icon: <UnorderedListOutlined />,
+    label: 'Liked Films',
+    path: PathConstants.LIKED_FILMS,
   },
 ];
 
