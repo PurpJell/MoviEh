@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {IFilm} from '../../../types';
 import api from '../../../api/api';
-import {message, Typography, List, Spin} from 'antd';
+import {message, Typography, List, Spin, Button, Tooltip} from 'antd';
+import {DeleteOutlined} from '@ant-design/icons';
 import Film from '../../common/Film';
 
 const {Title, Text} = Typography;
@@ -41,6 +42,17 @@ const LikedFilmsPage: React.FC = () => {
     setSelectedFilm(film);
   };
 
+  const removeFilm = async (filmTitle: string) => {
+    try {
+      await api.post(`/liked_movies/`, {movie_title: filmTitle});
+      setFilms(films.filter(film => film.title !== filmTitle));
+      message.success('Film removed successfully.');
+    } catch (error) {
+      message.error('Failed to remove film. Please try again later.');
+      console.error('Error removing film:', error);
+    }
+  };
+
   return (
     <div style={{display: 'flex', flexDirection: 'row', padding: '2%'}}>
       {loading ? (
@@ -72,20 +84,46 @@ const LikedFilmsPage: React.FC = () => {
             <List
               dataSource={films}
               renderItem={film => (
-                <Text
+                <div
                   style={{
-                    display: 'block',
-                    padding: '8px 16px',
-                    cursor: 'pointer',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
                     backgroundColor:
                       selectedFilm === film ? '#e6f4ff' : 'white',
                     color: selectedFilm === film ? '#1677ff' : 'black',
-                    borderRadius: '4px',
-                    transition: 'background-color 0.3s ease',
+                    cursor: 'pointer',
                   }}
                   onClick={() => handleFilmClick(film)}>
-                  {film.title}
-                </Text>
+                  <Text
+                    style={{
+                      display: 'block',
+                      padding: '8px 16px',
+
+                      borderRadius: '4px',
+                      transition: 'background-color 0.3s ease',
+                    }}>
+                    <span>
+                      {film.title} - {film.year}
+                    </span>
+                  </Text>
+                  <Tooltip title="Remove">
+                    <Button
+                      type="link"
+                      icon={<DeleteOutlined />}
+                      onClick={() => removeFilm(film.title)}
+                      style={{
+                        color: '#000',
+                        backgroundColor: 'transparent',
+                        border: 'none',
+                      }}
+                      onMouseEnter={e =>
+                        (e.currentTarget.style.color = '#ff4d4f')
+                      }
+                      onMouseLeave={e => (e.currentTarget.style.color = '#000')}
+                    />
+                  </Tooltip>
+                </div>
               )}
             />
           </div>
