@@ -67,7 +67,7 @@ Note that in order to fully take use of the system, an OpenAI API key is require
 
 ## Usage
 
-    In your browser, navigate to `http://localhost:80`. 
+In your browser, navigate to `http://localhost:80`. 
 
 ## License
 
